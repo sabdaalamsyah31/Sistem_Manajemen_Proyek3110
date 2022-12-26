@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "831963302859",
+    "firebase_url": "https://manajemen-proyek-746e4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "manajemen-proyek-746e4",
+    "storage_bucket": "manajemen-proyek-746e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831963302859:android:0c84a3e84f939537f7844e",
+        "android_client_info": {
+          "package_name": "com.kerja_praktek.sistem_manajemen_proyek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831963302859-mgbvua3th5h3kku278mse2grf5u4f1vf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1MU6Pxcd5iXywrXBpQd0nJgR_U-0FqlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831963302859-mgbvua3th5h3kku278mse2grf5u4f1vf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

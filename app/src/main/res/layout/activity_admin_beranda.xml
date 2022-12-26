@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/iphone_13_pro_max___2"
+    tools:context=".admin.adminBeranda">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/transparant"
+        android:backgroundTint="@color/transparant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/kosugi_maru"
+            android:text="Tugas"
+            android:textColor="@color/merah_button"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/Logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/logo" />
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/rcLayout"
+        android:layout_width="match_parent"
+        android:layout_height="540dp"
+        android:background="@color/transparant"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_Proyek"
+            android:layout_width="wrap_content"
+            android:layout_height="540dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"
+            tools:listitem="@layout/item_tugas" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/transparant"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcLayout"
+        app:layout_constraintVertical_bias="0.238">
+
+        <ImageButton
+            android:id="@+id/btnTambahkan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/transparant"
+            android:tint="@color/black"
+            app:srcCompat="@drawable/btn_tambahkan_tugas" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
