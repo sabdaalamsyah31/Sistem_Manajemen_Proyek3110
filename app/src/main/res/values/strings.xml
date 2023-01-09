@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Sistem_Manajemen_Proyek</string>
     <string name="ok">OK</string>
+
+    <!--notification-->
+    <string name="notif.title.warning">Peringatan !!</string>
 </resources>

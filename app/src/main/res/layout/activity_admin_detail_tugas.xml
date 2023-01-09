@@ -237,8 +237,8 @@
             android:defaultFocusHighlightEnabled="true"
             android:focusable="auto"
             android:focusableInTouchMode="true"
-            android:tint="@color/merah_button"
-            app:srcCompat="@drawable/btnhapus" />
+            app:srcCompat="@drawable/btnhapus"
+            app:tint="@color/merah_button" />
 
         <ImageButton
             android:id="@+id/btnEdit"
@@ -249,7 +249,7 @@
             android:defaultFocusHighlightEnabled="true"
             android:focusable="auto"
             android:focusableInTouchMode="true"
-            android:tint="@color/merah_button"
+            app:tint="@color/merah_button"
             app:srcCompat="@drawable/btnedit" />
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.kerja_praktek.sistem_manajemen_proyek
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -18,6 +19,7 @@ import com.kerja_praktek.sistem_manajemen_proyek.admin.adminBeranda
 
 
 class Login : BaseActivity() {
+    private val TAG = "Login"
 
     private lateinit var database: DatabaseReference
 
@@ -44,6 +46,7 @@ class Login : BaseActivity() {
             } else if (password.isEmpty()) {
                 Toast.makeText(applicationContext,"Password Kosong", Toast.LENGTH_SHORT).show()
             }else{
+                Log.d(TAG, "onCreate: $username , $password")
                 val Username = "Admin"
                 database.child("Users")
                     .child(Username)
@@ -73,7 +76,7 @@ class Login : BaseActivity() {
                         }
 
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
+                            Log.d(TAG, "onCancelled: ${error.message}")
                         }
 
                     })

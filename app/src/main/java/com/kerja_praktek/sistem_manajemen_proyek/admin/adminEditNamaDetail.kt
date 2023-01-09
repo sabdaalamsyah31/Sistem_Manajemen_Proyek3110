@@ -32,7 +32,7 @@ class adminEditNamaDetail : BaseActivity() {
         var getnmProyek = intent.getStringExtra("nmProyek")
         var getcekbox = intent.getStringExtra("cekbox")
         var getid = intent.getStringExtra("id")
-        var getstatus = intent.getStringExtra("Status")
+        var getstatus = intent.getBooleanExtra("Status", false)
 
         edtdetail.hint = getcekbox
         nmProyek.text = getnmProyek
@@ -49,7 +49,7 @@ class adminEditNamaDetail : BaseActivity() {
             if (detailname.isEmpty()){
                 Toast.makeText(this@adminEditNamaDetail,"Data Kosong Mohon Diisi", Toast.LENGTH_LONG).show()
             }else{
-                val detail = DetailInfo(detailname,id = id, status = getstatus.toBoolean())
+                val detail = DetailInfo(detailname,id = id, status = getstatus)
                 database.child("DetailProyek").child(proyek).child(id)
                     .setValue(detail)
                     .addOnCompleteListener{task->
