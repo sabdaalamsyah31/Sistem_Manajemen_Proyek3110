@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iphone_13_pro_max___2"
+    android:background="@drawable/iphone_13_pro_max___4"
     tools:context=".admin.adminTambahkanTugas">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView7"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         app:cardBackgroundColor="@color/transparant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,226 +21,156 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/kosugi_maru"
+            android:fontFamily="@font/metrophobic"
             android:text="Tambahkan Tugas"
-            android:textColor="@color/merah_button"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/edt_NamaProjek"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Nama Projek"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView7" />
-
-    <EditText
-        android:id="@+id/edt_penanggung_jawab"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Penanggung Jawab Projek"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_NamaProjek" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_AnggotaProyek4">
-
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="135dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="List Progress"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/imageButton8"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:background="@color/transparant"
-            app:srcCompat="@drawable/btn_tambah_list"
-            tools:ignore="TouchTargetSizeCheck" />
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/sc_listProgress"
-        android:layout_width="320dp"
-        android:layout_height="180dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <EditText
-                android:id="@+id/editTextTextPersonName5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Progress"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-    </ScrollView>
-
-    <EditText
-        android:id="@+id/edt_AnggotaProyek1"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Anggota Proyek"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_penanggung_jawab" />
-
-    <EditText
-        android:id="@+id/edt_AnggotaProyek2"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Anggota Proyek"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_AnggotaProyek1" />
-
-    <EditText
-        android:id="@+id/edt_AnggotaProyek3"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Anggota Proyek"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_AnggotaProyek2" />
-
-    <EditText
-        android:id="@+id/edt_AnggotaProyek4"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Anggota Proyek"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#818080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_AnggotaProyek3" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSelanjutnya"
         android:layout_width="240dp"
         android:layout_height="60dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/merah_button"
-        android:text="Tambahkan"
+        android:fontFamily="@font/metrophobic"
+        android:text="Selanjutnya"
         android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sc_listProgress" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="360dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="92dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#591B1A1A"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView7">
+
+        <EditText
+            android:id="@+id/edtNamaProjek"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Nama Projek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_Deadline"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Deadline (TGL-BLN-TH)"
+            android:inputType="datetime"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtManagerProyek"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Manager Projek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_Programmer1"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Anggota Proyek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_Programmer2"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Anggota Proyek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_Programmer3"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Anggota Proyek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_Programmer4"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Anggota Proyek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

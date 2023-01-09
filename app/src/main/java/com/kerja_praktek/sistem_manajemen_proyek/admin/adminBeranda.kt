@@ -1,30 +1,28 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
+import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
 import com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder.adminBerandaAdapter
 
-class adminBeranda : AppCompatActivity() {
+class adminBeranda : BaseActivity() {
     private lateinit var rv_item : RecyclerView
     private lateinit var database: DatabaseReference
     private lateinit var ListProyek: ArrayList<ProyekInfo>
-    @SuppressLint("MissingInflatedId")
+//    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_beranda)
 
 
 
-        val btnTambahkan = findViewById<ImageButton>(R.id.btnTambahkan)
+        val btnTambahkan = findViewById<ImageButton>(R.id.btnTambahkanProyek)
 
         rv_item = findViewById(R.id.rv_Proyek)
         rv_item.layoutManager = LinearLayoutManager(this)
@@ -36,7 +34,7 @@ class adminBeranda : AppCompatActivity() {
 
 
 
-        btnTambahkan.setOnClickListener() {
+        btnTambahkan.setOnClickListener {
             val intent = Intent(applicationContext, adminTambahkanTugas::class.java)
             startActivity(intent)
         }
@@ -61,17 +59,17 @@ class adminBeranda : AppCompatActivity() {
                         override fun onItemClick(position: Int) {
                             val intent = Intent(this@adminBeranda,adminDetailTugas::class.java)
 
-                            intent.putExtra("namaProyek",ListProyek[position].NamaProyek)
-                            intent.putExtra("Deadline",ListProyek[position].Deadline)
-                            intent.putExtra("Manager",ListProyek[position].Manager)
-                            intent.putExtra("Programmer_1",ListProyek[position].Programmer_1)
-                            intent.putExtra("Programmer_2",ListProyek[position].Programmer_2)
-                            intent.putExtra("Programmer_3",ListProyek[position].Programmer_3)
-                            intent.putExtra("Programmer_4",ListProyek[position].Programmer_4)
-                            intent.putParcelableArrayListExtra("DetailProyek", (listOf <DetailInfo>(ListProyek)))
+                            intent.putExtra("namaProyek",ListProyek[position].namaProyek)
+                            intent.putExtra("deadline",ListProyek[position].deadline)
+                            intent.putExtra("managerProyek",ListProyek[position].manager)
+                            intent.putExtra("programmer_1",ListProyek[position].programmer_1)
+                            intent.putExtra("programmer_2",ListProyek[position].programmer_2)
+                            intent.putExtra("programmer_3",ListProyek[position].programmer_3)
+                            intent.putExtra("programmer_4",ListProyek[position].programmer_4)
+                            startActivity(intent)
                         }
                     })
-                }
+                }else{}
             }
 
             override fun onCancelled(error: DatabaseError) {

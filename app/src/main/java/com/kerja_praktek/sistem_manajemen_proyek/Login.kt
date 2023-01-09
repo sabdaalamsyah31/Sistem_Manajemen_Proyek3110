@@ -2,23 +2,29 @@ package com.kerja_praktek.sistem_manajemen_proyek
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.UsersInfo
 import com.kerja_praktek.sistem_manajemen_proyek.admin.adminBeranda
 
 
-class Login : AppCompatActivity() {
+class Login : BaseActivity() {
 
     private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_login)
 
         var editUser = findViewById<EditText>(R.id.edt_Username)
@@ -52,6 +58,8 @@ class Login : AppCompatActivity() {
                                 val resultUsername = Userdata.Username.toString()
                                 val resultPassword = Userdata.Password.toString()
                                 val resultJabatan = Userdata.Jabatan.toString()
+
+
 
                                 if (username.equals(resultUsername) && password.equals(resultPassword)){
                                     Toast.makeText(applicationContext,"Selamat Datang $resultUsername Sebagai $resultJabatan", Toast.LENGTH_SHORT).show()

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iphone_13_pro_max___2"
+    android:background="@drawable/iphone_13_pro_max___4"
     tools:context=".Login">
 
     <androidx.cardview.widget.CardView
@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/kosugi_maru"
+            android:fontFamily="@font/metrophobic"
             android:text="Sistem Manajemen Informasi"
-            android:textColor="@color/merah_button"
+            android:textColor="@color/abu2"
             android:textSize="20sp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
@@ -41,44 +41,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edt_Username"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        android:textColorHint="@color/abu2_Hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-    <EditText
-        android:id="@+id/edt_Password"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColorHint="@color/abu2_Hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_Username" />
-
     <Button
         android:id="@+id/btn_Login"
         android:layout_width="245dp"
         android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@color/merah_button"
-        android:fontFamily="@font/kosugi_maru"
+        android:fontFamily="@font/metrophobic"
         android:text="Login"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_Password" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="340dp"
+        android:layout_height="260dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/rounded_button2"
+        android:backgroundTint="#59FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <EditText
+            android:id="@+id/edt_Username"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu2_Hint"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edt_Password"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu2_Hint"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,8 @@
 package com.kerja_praktek.sistem_manajemen_proyek.Model
 
-import android.os.Parcelable
-import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.android.parcel.Parcelize
-
-@IgnoreExtraProperties
-@Parcelize
+//@IgnoreExtraProperties
 data class DetailInfo (
-    val Detail: String? = "",
-    val Status: Boolean? = null
-):Parcelable
+    var cekbox: String? = "",
+    var status: Boolean = false,
+    var id: String? = ""
+)

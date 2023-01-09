@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/iphone_13_pro_max___4"
+    tools:context=".admin.adminTambahTugas_Detail">
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="340dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="148dp"
+        android:background="@drawable/rounded_button3"
+        android:backgroundTint="#77000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+        <EditText
+            android:id="@+id/detail_1"
+            android:layout_width="280dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="32dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Detail Tugas"
+            android:inputType="textPersonName"
+            android:textColor="@color/abu2"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="#585858"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:backgroundTint="@color/transparant"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/metrophobic"
+            android:text="Tambahkan Detail Proyek"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nmProyek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/metrophobic"
+            android:text="Detail Sebelumnya"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnTambahkan"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="@color/merah_button"
+        android:fontFamily="@font/metrophobic"
+        android:text="Tambahkan"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        app:rippleColor="#C90000" />
+
+    <Button
+        android:id="@+id/btnSelesai"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/merah_button"
+        android:fontFamily="@font/metrophobic"
+        android:text="Selesai"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTambahkan" />
+</androidx.constraintlayout.widget.ConstraintLayout>

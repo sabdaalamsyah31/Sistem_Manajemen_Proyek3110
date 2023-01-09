@@ -10,7 +10,9 @@ import com.kerja_praktek.sistem_manajemen_proyek.R
 
 class adminBerandaAdapter(private val proyekList : ArrayList<ProyekInfo>): RecyclerView.Adapter<adminBerandaAdapter.ViewHolder>() {
 
-    private lateinit var mListener: onItemClickListener
+    private  lateinit var mListener: onItemClickListener
+
+
 
     interface onItemClickListener {
         fun onItemClick(position: Int)
@@ -18,6 +20,7 @@ class adminBerandaAdapter(private val proyekList : ArrayList<ProyekInfo>): Recyc
     fun setOnItemClickListener(clickListener: onItemClickListener){
         mListener = clickListener
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemview =
@@ -29,9 +32,8 @@ class adminBerandaAdapter(private val proyekList : ArrayList<ProyekInfo>): Recyc
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentitem = proyekList[position]
-        holder.proyekname.text = currentitem.NamaProyek
-
-        holder.proyekname.text = currentitem.NamaProyek
+        holder.proyekname.text = currentitem.namaProyek
+//        holder.proyekname.text = currentitem.NamaProyek
     }
 
     override fun getItemCount(): Int {

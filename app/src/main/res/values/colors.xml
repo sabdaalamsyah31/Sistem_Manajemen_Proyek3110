@@ -15,4 +15,6 @@
     <color name="abu2">#E2D8D8</color>
     <color name="abu2_Background">#B9B9B9</color>
     <color name="abu2_Hint">#818080</color>
+    <color name="abu_trans">#59FFFFFF</color>
+    <color name="merah_baru">#E6902C2C</color>
 </resources>
