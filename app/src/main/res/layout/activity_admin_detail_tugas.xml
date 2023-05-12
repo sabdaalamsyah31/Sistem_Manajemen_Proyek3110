@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iphone_13_pro_max___4"
+    android:backgroundTint="@color/merah_terbaru"
     tools:context=".admin.adminDetailTugas">
 
     <androidx.cardview.widget.CardView
@@ -150,18 +151,9 @@
             android:layout_gravity="center"
             android:fontFamily="@font/metrophobic"
             android:text="List Progress"
-            android:textColor="@color/black"
+            android:textColor="#E8FBF9F9"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/tambahDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="86dp"
-            android:background="@color/transparant"
-            app:srcCompat="@drawable/btn_tambah_list"
-            tools:ignore="TouchTargetSizeCheck" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
@@ -169,20 +161,23 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.972">
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/metrophobic"
             android:text="Progress Project"
-            android:textColor="@color/merah_baru"
+            android:textColor="#FBF9F9"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -190,7 +185,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/txt_persen"
@@ -198,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metrophobic"
                 android:text="0"
-                android:textColor="@color/merah_button"
+                android:textColor="#FBF9F9"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -210,7 +206,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/metrophobic"
                 android:text="%"
-                android:textColor="@color/merah_button"
+                android:textColor="#FBF9F9"
                 android:textSize="34sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -218,46 +214,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/transparant"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="1.0">
-
-        <ImageButton
-            android:id="@+id/btnHapus"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparant"
-            android:defaultFocusHighlightEnabled="true"
-            android:focusable="auto"
-            android:focusableInTouchMode="true"
-            app:srcCompat="@drawable/btnhapus"
-            app:tint="@color/merah_button" />
-
-        <ImageButton
-            android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparant"
-            android:defaultFocusHighlightEnabled="true"
-            android:focusable="auto"
-            android:focusableInTouchMode="true"
-            app:tint="@color/merah_button"
-            app:srcCompat="@drawable/btnedit" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="318dp"
+        android:layout_height="390dp"
         android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView6">
@@ -272,5 +234,58 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_cekbox" />
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tambahdetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:backgroundTint="@color/dasar"
+        app:layout_constraintBottom_toTopOf="@+id/btnHapus"
+        app:layout_constraintEnd_toEndOf="@+id/btnHapus"
+        app:srcCompat="@drawable/baseline_add_chart_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnHapus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:backgroundTint="@color/dasar"
+        app:layout_constraintBottom_toTopOf="@+id/btnEdit"
+        app:layout_constraintEnd_toEndOf="@+id/btnEdit"
+        app:srcCompat="@drawable/ic_delete" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:backgroundTint="@color/dasar"
+        app:layout_constraintBottom_toTopOf="@+id/btn_fac"
+        app:layout_constraintEnd_toEndOf="@+id/btn_fac"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_fac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="330dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:visibility="visible"
+        app:backgroundTint="@color/abu2_Hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView6"
+        app:layout_constraintVertical_bias="0.49"
+        app:srcCompat="@drawable/add_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

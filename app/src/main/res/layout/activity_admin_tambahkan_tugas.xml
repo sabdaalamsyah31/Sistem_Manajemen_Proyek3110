@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iphone_13_pro_max___4"
+    android:backgroundTint="@color/merah_terbaru"
     tools:context=".admin.adminTambahkanTugas">
 
     <androidx.cardview.widget.CardView
@@ -17,7 +18,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/coba"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_judul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -25,7 +33,8 @@
             android:text="Tambahkan Tugas"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
     </androidx.cardview.widget.CardView>
 
     <Button
@@ -33,7 +42,7 @@
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_marginTop="48dp"
-        android:backgroundTint="@color/merah_button"
+        android:backgroundTint="@color/Merah_Bata"
         android:fontFamily="@font/metrophobic"
         android:text="Selanjutnya"
         android:textAllCaps="false"
@@ -61,7 +70,7 @@
 
         <EditText
             android:id="@+id/edtNamaProjek"
-            android:layout_width="280dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
@@ -70,28 +79,40 @@
             android:hint="Nama Projek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edt_Deadline"
+        <LinearLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:fontFamily="@font/metrophobic"
-            android:hint="Deadline (TGL-BLN-TH)"
-            android:inputType="datetime"
-            android:minHeight="48dp"
-            android:textColor="@color/white"
-            android:textColorHint="#C9C9C9"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-        <EditText
+            <TextView
+                android:id="@+id/tvDeadline"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/metrophobic"
+                android:text="00-00-2020"
+                android:textColor="@color/abu2"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_datepicker"
+                style="?android:spinnerStyle"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Tentukan Deadline"
+                android:textColor="@color/abu2"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Spinner
             android:id="@+id/edtManagerProyek"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
@@ -102,12 +123,14 @@
             android:hint="Manager Projek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
-        <EditText
+        <Spinner
             android:id="@+id/edt_Programmer1"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
@@ -118,14 +141,17 @@
             android:hint="Anggota Proyek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
-        <EditText
+        <Spinner
             android:id="@+id/edt_Programmer2"
             android:layout_width="280dp"
+
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
@@ -134,14 +160,17 @@
             android:hint="Anggota Proyek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
-        <EditText
+        <Spinner
             android:id="@+id/edt_Programmer3"
             android:layout_width="280dp"
+
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
@@ -150,14 +179,17 @@
             android:hint="Anggota Proyek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
-        <EditText
+        <Spinner
             android:id="@+id/edt_Programmer4"
             android:layout_width="280dp"
+
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
@@ -166,10 +198,12 @@
             android:hint="Anggota Proyek"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textColor="@color/abu2"
             android:textColorHint="#C9C9C9"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
     </LinearLayout>
 

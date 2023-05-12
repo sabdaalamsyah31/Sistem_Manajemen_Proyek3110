@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iphone_13_pro_max___4"
+    android:backgroundTint="@color/merah_terbaru"
     tools:context=".admin.adminEditTugas">
 
     <LinearLayout
@@ -13,24 +14,38 @@
         android:layout_height="400dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_button3"
-        android:backgroundTint="#59222121"
+        android:backgroundTint="#77000000"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView8">
 
-        <EditText
-            android:id="@+id/edt_deadline"
+        <LinearLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:fontFamily="@font/metrophobic"
-            android:hint="Deadline (TGL-BLN-TH)"
-            android:inputType="datetime"
-            android:textColor="@color/white" />
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_Deadline"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/metrophobic"
+                android:text="00-00-2020"
+                android:textColor="@color/abu2"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/btn_editdatepicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparant"
+                android:tint="@color/abu2"
+                app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edt_managerProyek"
@@ -102,7 +117,7 @@
         android:background="@color/transparant"
         android:backgroundTint="@color/transparant"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp" >
+        tools:layout_editor_absoluteX="1dp">
 
         <TextView
             android:id="@+id/textView5"
@@ -134,8 +149,9 @@
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/merah_button"
+        android:backgroundTint="@color/Merah_Bata"
         android:text="Selesai"
+        android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,9 +162,10 @@
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_marginTop="28dp"
-        android:backgroundTint="@color/merah_button"
+        android:backgroundTint="@color/Merah_Bata"
         android:fontFamily="@font/metrophobic"
         android:text="Batalkan"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"

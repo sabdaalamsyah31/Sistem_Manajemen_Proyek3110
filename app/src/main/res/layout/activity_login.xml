@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iphone_13_pro_max___4"
+    android:backgroundTint="@color/merah_terbaru"
     tools:context=".Login">
 
     <androidx.cardview.widget.CardView
@@ -17,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <TextView
             android:id="@+id/textView"
@@ -31,16 +32,6 @@
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="200dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center|top"
-        android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btn_Login"
         android:layout_width="245dp"
@@ -48,9 +39,10 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/merah_button"
         android:fontFamily="@font/metrophobic"
-        android:text="Login"
+        android:text="Masuk"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +54,7 @@
         android:layout_height="260dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/rounded_button2"
-        android:backgroundTint="#59FFFFFF"
+        android:backgroundTint="#DDFDFCFC"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -80,7 +72,7 @@
             android:hint="Username"
             android:inputType="textPersonName"
             android:textColor="@color/black"
-            android:textColorHint="@color/abu2_Hint"
+            android:textColorHint="@color/abu2_Background"
             android:textSize="20sp" />
 
         <EditText
@@ -94,8 +86,17 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:textColor="@color/black"
-            android:textColorHint="@color/abu2_Hint"
+            android:textColorHint="@color/abu2_Background"
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_672226403878_removebg_preview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,9 @@ import com.google.firebase.database.IgnoreExtraProperties
 //@IgnoreExtraProperties
 data class ProyekInfo(
     val namaProyek: String? = "",
-    val deadline:String? = "",
+    val tanggal : String? = "",
+    val bulan: String? = "",
+    val tahun:String? = "",
     val manager:String? = "",
     val programmer_1:String? = "",
     val programmer_2:String? = "",

@@ -1,11 +1,14 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
@@ -20,10 +23,13 @@ import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
 import com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder.adminDetailtugasAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class adminEditTugas : BaseActivity() {
     private lateinit var ListDetailProyek:ArrayList<DetailInfo>
     private lateinit var database:DatabaseReference
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_edit_tugas)
@@ -31,16 +37,25 @@ class adminEditTugas : BaseActivity() {
         val btnselesai = findViewById<Button>(R.id.btn_Selesai)
 
         val edtnmProyek = findViewById<TextView>(R.id.txt_namaProyek)
-        val edtDeadline = findViewById<EditText>(R.id.edt_deadline)
+        val btnDeadline = findViewById<ImageButton>(R.id.btn_editdatepicker)
+        val edtDeadline = findViewById<TextView>(R.id.tv_Deadline)
         val edtManager = findViewById<EditText>(R.id.edt_managerProyek)
         val edtProgrammer1 = findViewById<EditText>(R.id.edt_Programmer_1)
         val edtProgrammer2 = findViewById<EditText>(R.id.edt_Programmer_2)
         val edtProgrammer3 = findViewById<EditText>(R.id.edt_Programmer_3)
         val edtProgrammer4 = findViewById<EditText>(R.id.edt_Programmer_4)
 
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
 
         val nama = intent.getStringExtra("namaProyek").toString()
-        val deadline = intent.getStringExtra("deadline").toString()
+//        val deadline = intent.getStringExtra("deadline").toString()
+        val tanggal = intent.getStringExtra("tanggal")
+        val bulan = intent.getStringExtra("bulan")
+        val tahun = intent.getStringExtra("tahun")
         val manager = intent.getStringExtra("managerProyek").toString()
         val programmer1 = intent.getStringExtra("programmer_1").toString()
         val programmer2 = intent.getStringExtra("programmer_2").toString()
@@ -48,7 +63,7 @@ class adminEditTugas : BaseActivity() {
         val programmer4 = intent.getStringExtra("programmer_4").toString()
 
         edtnmProyek.text = nama
-        edtDeadline.setText(deadline)
+        edtDeadline.text = "$tanggal - $bulan - $tahun"
         edtManager.setText(manager)
         edtProgrammer1.setText(programmer1)
         edtProgrammer2.setText(programmer2)
@@ -57,7 +72,13 @@ class adminEditTugas : BaseActivity() {
         ListDetailProyek = arrayListOf<DetailInfo>()
 
 //        getCekboxDetail()
-
+        btnDeadline.setOnClickListener {
+            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{ view, mYear, mMonth, mDay ->
+                // text date
+                edtDeadline.text = ""+ mDay + "-" + (mMonth+1) + "-" + mYear
+            },year,month,day)
+            dpd.show()
+        }
 
         database = Firebase.database.reference
 

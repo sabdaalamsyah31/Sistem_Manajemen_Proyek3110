@@ -1,17 +1,14 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
-import com.kerja_praktek.sistem_manajemen_proyek.admin.adminDetailTugas
-import com.kerja_praktek.sistem_manajemen_proyek.admin.adminEditTugas
+import com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder.UsrDetailTugasViewHolder
 
 class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): RecyclerView.Adapter<adminDetailtugasAdapter.ViewHolder>() {
 //    private lateinit var database: DatabaseReference
@@ -32,7 +29,7 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
     fun setOnEditClickListener(clickListener:btneditClickListener){
         btneditListener = clickListener
     }
-    interface onItemClickListener {
+    interface onItemClickListener{
         fun onItemClick(position: Int)
     }
 
@@ -48,6 +45,10 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val currentItem = CekboxList[position]
+        val tanggal = currentItem.tanggal
+        val bulan = currentItem.bulan
+        val tahun = currentItem.tahun
+        val TD_Deadline = "$tanggal-$bulan-$tahun"
         var text :String
         val statusbaru = if (currentItem.status == true){
             text = "Sudah DiSelesaikan"
@@ -57,6 +58,7 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
         holder.cekbox.text = currentItem.cekbox
         holder.id.text = currentItem.id.toString()
         holder.status.text = text
+        holder.deadline.text = TD_Deadline
 //        holder.itemView.setOnClickListener {
 //
 //        }
@@ -74,6 +76,7 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
         var cekbox: TextView = item.findViewById(R.id.cxProyek)
         var id: TextView = item.findViewById(R.id.id)
         var status : TextView = item.findViewById(R.id.itemDetailStatus)
+        var deadline : TextView = item.findViewById(R.id.DL_cekbox)
 
 
         val btnedit: ImageButton = item.findViewById(R.id.btnEditDetail)

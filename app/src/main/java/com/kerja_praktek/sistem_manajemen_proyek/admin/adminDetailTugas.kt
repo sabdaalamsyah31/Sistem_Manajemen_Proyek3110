@@ -1,15 +1,18 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -23,6 +26,13 @@ import com.kerja_praktek.sistem_manajemen_proyek.Util.DialogUtil
 import com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder.adminDetailtugasAdapter
 
 class adminDetailTugas : BaseActivity() {
+
+//    animations
+    private val rotateOpen : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim)}
+    private val rotateClose : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim)}
+    private val fromBottom : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim)}
+    private val toBottom : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim)}
+
     private val TAG = "adminDetailTugas"
 //    database
     private lateinit var database: DatabaseReference
@@ -36,10 +46,12 @@ class adminDetailTugas : BaseActivity() {
     private lateinit var tvProgrammer_2: TextView
     private lateinit var tvProgrammer_3: TextView
     private lateinit var tvProgrammer_4: TextView
-    private lateinit var btnHapus:ImageButton
-    private lateinit var btnEdit:ImageButton
+    private lateinit var btnAction:FloatingActionButton
+    private lateinit var btnHapus:FloatingActionButton
+    private lateinit var btnEdit:FloatingActionButton
     private lateinit var rvProyekDetail:RecyclerView
     private lateinit var listDetailProyek:ArrayList<DetailInfo> //camelCase
+    private var clicked = false
     //variable
     var namaproyek = ""
 
@@ -48,8 +60,9 @@ class adminDetailTugas : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_detail_tugas)
         //init view
-        var btnTambah = findViewById<ImageButton>(R.id.tambahDetail)
+        var btnTambah = findViewById<ImageButton>(R.id.tambahdetail)
         tvPersen = findViewById(R.id.txt_persen)
+        btnAction = findViewById(R.id.btn_fac)
         btnHapus = findViewById(R.id.btnHapus)
         btnEdit = findViewById(R.id.btnEdit)
         tvNamaProyek = findViewById(R.id.tvNamaProyek)
@@ -59,19 +72,21 @@ class adminDetailTugas : BaseActivity() {
         tvProgrammer_2 = findViewById(R.id.tv_Programmer_2)
         tvProgrammer_3 = findViewById(R.id.tv_Programmer_3)
         tvProgrammer_4 = findViewById(R.id.tv_Programmer_4)
-        btnHapus = findViewById(R.id.btnHapus)
-        btnEdit = findViewById(R.id.btnEdit)
+//        btnHapus = findViewById(R.id.btnkumai)
+//        btnEdit = findViewById(R.id.btnhilir)
         //get data
         val nama = intent.getStringExtra("namaProyek")
         val manager = intent.getStringExtra("managerProyek")
-        val deadline = intent.getStringExtra("deadline")
+        val tanggal = intent.getStringExtra("tanggal")
+        val bulan = intent.getStringExtra("bulan")
+        val tahun = intent.getStringExtra("tahun")
         val programmer1 = intent.getStringExtra("programmer_1")
         val programmer2 = intent.getStringExtra("programmer_2")
         val programmer3 = intent.getStringExtra("programmer_3")
         val programmer4 = intent.getStringExtra("programmer_4")
         //setup data to view
         tvNamaProyek.text = nama
-        tvdeadline.text = deadline
+        tvdeadline.text = "$tanggal-$bulan-$tahun"
         tvManagerProyek.text = manager
         tvProgrammer_1.text = programmer1
         tvProgrammer_2.text = programmer2
@@ -91,10 +106,17 @@ class adminDetailTugas : BaseActivity() {
         getCekboxDetail()
 //        cekboxclick()
 
+        btnAction.setOnClickListener{
+            showButton()
+        }
+
+
         btnEdit.setOnClickListener{
             val ubah = Intent(this,adminEditTugas::class.java)
             ubah.putExtra("namaProyek",nama)
-            ubah.putExtra("deadline",deadline)
+            ubah.putExtra("tanggal",tanggal)
+            ubah.putExtra("bulan",bulan)
+            ubah.putExtra("tahun",tahun)
             ubah.putExtra("managerProyek",manager)
             ubah.putExtra("programmer_1",programmer1)
             ubah.putExtra("programmer_2",programmer2)
@@ -108,6 +130,7 @@ class adminDetailTugas : BaseActivity() {
             DialogUtil().showAlertDialog(this@adminDetailTugas,"Apakah Yakin Menghapus Proyek $namaproyek ?",
                 {// on yes
                     goDelete()
+                    finish()
                 }
             ,
                 { // on no action
@@ -121,6 +144,67 @@ class adminDetailTugas : BaseActivity() {
             val intent = Intent(this@adminDetailTugas,adminTambahTugas_DetailLagi::class.java)
             intent.putExtra("nmProyek",nama)
             startActivity(intent)
+        }
+
+    }
+
+    private fun showButton() {
+        setvisibility(clicked)
+        setanimation(clicked)
+        clicked = !clicked
+        setClikcable(clicked)
+    }
+
+    private fun setvisibility(clicked: Boolean) {
+        val btnTambah = findViewById<FloatingActionButton>(R.id.tambahdetail)
+        val btnEdit = findViewById<FloatingActionButton>(R.id.btnEdit)
+        val btnHapus = findViewById<FloatingActionButton>(R.id.btnHapus)
+
+        if(!clicked){
+            btnTambah.visibility = View.VISIBLE
+            btnEdit.visibility = View.VISIBLE
+            btnHapus.visibility = View.VISIBLE
+        }else{
+            btnTambah.visibility = View.INVISIBLE
+            btnEdit.visibility = View.INVISIBLE
+            btnHapus.visibility = View.INVISIBLE
+        }
+
+    }
+
+    private fun setanimation(clicked: Boolean) {
+        val btnTambah = findViewById<FloatingActionButton>(R.id.tambahdetail)
+        val btnEdit = findViewById<FloatingActionButton>(R.id.btnEdit)
+        val btnHapus = findViewById<FloatingActionButton>(R.id.btnHapus)
+        val btnAction = findViewById<FloatingActionButton>(R.id.btn_fac)
+
+        if(!clicked){
+            btnEdit.startAnimation(fromBottom)
+            btnTambah.startAnimation(fromBottom)
+            btnHapus.startAnimation(fromBottom)
+            btnAction.startAnimation(rotateOpen)
+        }else{
+            btnTambah.startAnimation(toBottom)
+            btnEdit.startAnimation(toBottom)
+            btnHapus.startAnimation(toBottom)
+            btnAction.startAnimation(rotateClose)
+        }
+
+    }
+
+    private fun setClikcable(clicked: Boolean) {
+        val btnTambah = findViewById<FloatingActionButton>(R.id.tambahdetail)
+        val btnEdit = findViewById<FloatingActionButton>(R.id.btnEdit)
+        val btnHapus = findViewById<FloatingActionButton>(R.id.btnHapus)
+
+        if(!clicked){
+            btnTambah.isClickable = false
+            btnEdit.isClickable = false
+            btnHapus.isClickable = false
+        }else{
+            btnTambah.isClickable = true
+            btnEdit.isClickable = true
+            btnHapus.isClickable = true
         }
     }
 
@@ -136,6 +220,9 @@ class adminDetailTugas : BaseActivity() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@adminDetailTugas,adminDetailstatus::class.java)
                 intent.putExtra("nmProyek",namaproyek)
+                intent.putExtra("tanggal",listDetailProyek[position].tanggal)
+                intent.putExtra("bulan",listDetailProyek[position].bulan)
+                intent.putExtra("tahun",listDetailProyek[position].tahun)
                 intent.putExtra("cekbox",listDetailProyek[position].cekbox)
                 intent.putExtra("status",listDetailProyek[position].status)
                 intent.putExtra("id",listDetailProyek[position].id)
@@ -148,6 +235,9 @@ class adminDetailTugas : BaseActivity() {
             override fun onbtneditClick(position: Int) {
                 val intent = Intent(this@adminDetailTugas,adminEditNamaDetail::class.java)
                 intent.putExtra("nmProyek",namaproyek)
+                intent.putExtra("tanggal",listDetailProyek[position].tanggal)
+                intent.putExtra("bulan",listDetailProyek[position].bulan)
+                intent.putExtra("tahun",listDetailProyek[position].tahun)
                 intent.putExtra("cekbox",listDetailProyek[position].cekbox)
                 intent.putExtra("id",listDetailProyek[position].id)
                 intent.putExtra("Status",listDetailProyek[position].status)
@@ -264,6 +354,3 @@ class adminDetailTugas : BaseActivity() {
         })
     }
 }
-
-
-
