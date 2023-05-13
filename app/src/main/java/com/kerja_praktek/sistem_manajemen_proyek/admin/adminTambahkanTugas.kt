@@ -3,9 +3,11 @@ package com.kerja_praktek.sistem_manajemen_proyek.admin
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -53,6 +55,7 @@ class adminTambahkanTugas : BaseActivity() {
 
         val nmProyek = findViewById<EditText>(R.id.edtNamaProjek)
 
+
         val Deadline = findViewById<Button>(R.id.btn_datepicker)
         val textDeadline = findViewById<TextView>(R.id.tvDeadline)
         val judul = findViewById<TextView>(R.id.tv_judul)
@@ -62,7 +65,7 @@ class adminTambahkanTugas : BaseActivity() {
         var HurufBulan = ""
 
         val btnSelanjutnya = findViewById<Button>(R.id.btnSelanjutnya)
-
+        val batalkan = findViewById<Button>(R.id.btnBatalkan)
 
 //        var ListUser = arrayListOf<String>()
 
@@ -79,32 +82,33 @@ class adminTambahkanTugas : BaseActivity() {
         Deadline.setOnClickListener {
             val dpd = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener{view, mYear:Int, mMonth:Int, mDay:Int ->
                 // text date
+                val month = mMonth+1
                 tglDeadline = mDay.toString()
-                blnDeadline = mMonth.toString()
+                blnDeadline = month.toString()
                 thnDeadline = mYear.toString()
-                if(mMonth == 1){
+                if(month == 1){
                     HurufBulan = "Januari"
-                }else if(mMonth == 2){
+                }else if(month == 2){
                     HurufBulan = "Februari"
-                }else if(mMonth == 3){
+                }else if(month == 3){
                     HurufBulan = "Maret"
-                }else if(mMonth == 4){
+                }else if(month == 4){
                     HurufBulan = "April"
-                }else if(mMonth == 5){
+                }else if(month == 5){
                     HurufBulan= "Mei"
-                }else if(mMonth == 6){
+                }else if(month == 6){
                     HurufBulan = "Juni"
-                }else if(mMonth == 7){
+                }else if(month == 7){
                     HurufBulan  = "Juli"
-                }else if(mMonth == 8){
+                }else if(month == 8){
                     HurufBulan  = "Agustus"
-                }else if(mMonth == 9){
+                }else if(month == 9){
                     HurufBulan  = "September"
-                }else if(mMonth == 10){
+                }else if(month == 10){
                     HurufBulan  = "Oktober"
-                }else if(mMonth == 11){
+                }else if(month == 11){
                     HurufBulan   = "November"
-                }else if(mMonth == 12){
+                }else if(month == 12){
                     HurufBulan  = "Desember"
                 }else{
                     HurufBulan  = "Januari"
@@ -174,6 +178,11 @@ class adminTambahkanTugas : BaseActivity() {
                     }
             }
         }
+
+
+        batalkan.setOnClickListener {
+            finish()
+        }
     }
 
     private fun spinner() {
@@ -182,7 +191,7 @@ class adminTambahkanTugas : BaseActivity() {
         val anggota_1 = findViewById<Spinner>(R.id.edt_Programmer1)
         val anggota_2 = findViewById<Spinner>(R.id.edt_Programmer2)
         val anggota_3 = findViewById<Spinner>(R.id.edt_Programmer3)
-        val anggota_4 = findViewById<Spinner>(R.id.edt_Programmer4)
+        var anggota_4 = findViewById<Spinner>(R.id.edt_Programmer4)
         val nmManager = findViewById<Spinner>(R.id.edtManagerProyek)
 
 
@@ -197,11 +206,58 @@ class adminTambahkanTugas : BaseActivity() {
             "Ghufron","Bayu Grafit","Hermanto","MagangSatu",
             "MagangDua","MagangTiga","Nova Ariyanto","Panji Cahyono",
             "Tomi Kurniawan")
-        val ProgrammerarrayAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,NamaProgrammer)
+        val ProgrammerarrayAdapter = object:ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,NamaProgrammer){
+            override fun isEnabled(position: Int): Boolean {
+//
+                return position != 0
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
+//                set color hint
+                if(position == 0){
+                    view.setTextColor(Color.GRAY)
+                }else{
+
+                }
+                return view
+            }
+        }
         ProgrammerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        val ManagerarrayAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,NamaManager)
+
+
+
+
+        val ManagerarrayAdapter = object:ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,NamaManager){
+            override fun isEnabled(position: Int): Boolean {
+//
+                return position != 0
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
+//                set color hint
+                if(position == 0){
+                    view.setTextColor(Color.GRAY)
+                }else{
+
+                }
+                return view
+            }
+        }
         ManagerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        nmManager!!.setAdapter(ManagerarrayAdapter)
+
+
+
+        nmManager.adapter = ManagerarrayAdapter
         nmManager.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(
@@ -211,7 +267,7 @@ class adminTambahkanTugas : BaseActivity() {
                 id: Long
             ) {
 
-                namaMananger = NamaProgrammer[position]
+                namaMananger = NamaManager[position]
 //                judul.text = ListUser[position]
             }
 
@@ -282,6 +338,10 @@ class adminTambahkanTugas : BaseActivity() {
                 position: Int,
                 id: Long
             ) {
+                val default = arrayOf("Programmer")
+                if(position == 0){
+
+                }
                 anggota4 = NamaProgrammer[position]
 //                Toast.makeText(applicationContext,ListUser[position], Toast.LENGTH_SHORT).show()
             }

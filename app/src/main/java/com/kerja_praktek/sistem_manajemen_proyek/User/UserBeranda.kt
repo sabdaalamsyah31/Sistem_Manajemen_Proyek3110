@@ -129,7 +129,7 @@ class UserBeranda : BaseActivity() {
                             val intent = Intent(this@UserBeranda,UserDetailTugas::class.java)
 //                            ini intent put extra place
                             intent.putExtra("namaProyek",userListProyek[position].namaProyek)
-                            intent.putExtra("deadline",userListProyek[position].tanggal)
+                            intent.putExtra("tanggal",userListProyek[position].tanggal)
                             intent.putExtra("bulan",userListProyek[position].bulan)
                             intent.putExtra("tahun",userListProyek[position].tahun)
                             intent.putExtra("managerProyek",userListProyek[position].manager)

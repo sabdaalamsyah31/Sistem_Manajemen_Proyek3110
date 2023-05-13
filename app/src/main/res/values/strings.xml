@@ -17,5 +17,6 @@
     <style name="mydatepicker">
     <item name="android:textColorPrimary">@color/abu2</item>
         <item name="colorControlNormal">@color/abu2</item>
+
     </style>
 </resources>

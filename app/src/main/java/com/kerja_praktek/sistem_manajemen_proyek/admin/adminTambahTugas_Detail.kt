@@ -86,33 +86,33 @@ class adminTambahTugas_Detail : BaseActivity() {
         datepicker.setOnClickListener {
             val dpd = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener{ view, mYear:Int, mMonth:Int, mDay:Int ->
                 // text date
-//            textDeadline.text = ""+ mDay + "-" + (mMonth+1) + "-" + mYear
+                val bulan = mMonth+1
                 tgl  = mDay.toString()
-                bln  = mMonth.toString()
+                bln  = bulan.toString()
                 thn  = mYear.toString()
-                if(mMonth == 1){
+                if(bulan == 1){
                     HurufBulan = "Januari"
-                }else if(mMonth == 2){
+                }else if(bulan == 2){
                     HurufBulan = "Februari"
-                }else if(mMonth == 3){
+                }else if(bulan == 3){
                     HurufBulan = "Maret"
-                }else if(mMonth == 4){
+                }else if(bulan == 4){
                     HurufBulan = "April"
-                }else if(mMonth == 5){
+                }else if(bulan == 5){
                     HurufBulan= "Mei"
-                }else if(mMonth == 6){
+                }else if(bulan == 6){
                     HurufBulan = "Juni"
-                }else if(mMonth == 7){
+                }else if(bulan == 7){
                     HurufBulan  = "Juli"
-                }else if(mMonth == 8){
+                }else if(bulan == 8){
                     HurufBulan  = "Agustus"
-                }else if(mMonth == 9){
+                }else if(bulan == 9){
                     HurufBulan  = "September"
-                }else if(mMonth == 10){
+                }else if(bulan == 10){
                     HurufBulan  = "Oktober"
-                }else if(mMonth == 11){
+                }else if(bulan == 11){
                     HurufBulan   = "November"
-                }else if(mMonth == 12){
+                }else if(bulan == 12){
                     HurufBulan  = "Desember"
                 }else{
                     HurufBulan  = "Januari"
@@ -138,7 +138,11 @@ class adminTambahTugas_Detail : BaseActivity() {
             if (adddetail.isEmpty()) {
                 Toast.makeText(this@adminTambahTugas_Detail,"Tolong Tambahkan Detail Proyek", Toast.LENGTH_SHORT).show()
 
-            }else{
+            }else if(tanggal.isEmpty()||bulan.isEmpty()||tahun.isEmpty()) {
+                Toast.makeText(this@adminTambahTugas_Detail,"Tolong Tambahkan Deadline", Toast.LENGTH_SHORT).show()
+            }
+
+            else{
                 val detail = DetailInfo(cekbox = adddetail,status = false, tanggal = tanggal.toString(), bulan = bulan.toString(), tahun = tahun.toString(),
                     id = autoincrement.toString(),
                 )
@@ -150,6 +154,9 @@ class adminTambahTugas_Detail : BaseActivity() {
                         if (task.isSuccessful){
                             Toast.makeText(this@adminTambahTugas_Detail,"Data Berhasil Ditambahkan",Toast.LENGTH_LONG).show()
                             edtDetail.setText("")
+                            tanggal.isEmpty()
+                            bulan.isEmpty()
+                            tahun.isEmpty()
                         }else{
                             Toast.makeText(this@adminTambahTugas_Detail,"Data Gagal Ditambahkan",Toast.LENGTH_LONG).show()
                         }

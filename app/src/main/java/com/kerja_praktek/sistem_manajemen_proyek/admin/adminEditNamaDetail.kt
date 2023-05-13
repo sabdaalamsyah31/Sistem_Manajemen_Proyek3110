@@ -24,6 +24,8 @@ class adminEditNamaDetail : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_edit_nama_detail)
 
+//        note deadline belum terisi
+
 
         var edtdetail = findViewById<EditText>(R.id.edt_DetailNama)
         var ID = findViewById<TextView>(R.id.editID)
@@ -45,10 +47,40 @@ class adminEditNamaDetail : BaseActivity() {
         var getcekbox = intent.getStringExtra("cekbox")
         var getid = intent.getStringExtra("id")
         var getstatus = intent.getBooleanExtra("Status", false)
-        var getTanggal = intent.getStringExtra("Tanggal")
-        var getBulan = intent.getStringExtra("Bulan")
-        var getTahun = intent.getStringExtra("Tahun")
-        datepicker.text = "$getTanggal $getBulan $getTahun"
+        var getTanggal = intent.getStringExtra("tanggal")
+        var getBulan = intent.getStringExtra("bulan")?.toInt()
+        var getTahun = intent.getStringExtra("tahun")
+
+
+        var bulanHuruf :String? = null
+        if(getBulan == 1){
+            bulanHuruf = "Januari"
+        }else if(getBulan == 2){
+            bulanHuruf = "Februari"
+        }else if(getBulan == 3){
+            bulanHuruf = "Maret"
+        }else if(getBulan == 4){
+            bulanHuruf = "April"
+        }else if(getBulan == 5){
+            bulanHuruf= "Mei"
+        }else if(getBulan == 6){
+            bulanHuruf = "Juni"
+        }else if(getBulan == 7){
+            bulanHuruf  = "Juli"
+        }else if(getBulan == 8){
+            bulanHuruf  = "Agustus"
+        }else if(getBulan == 9){
+            bulanHuruf  = "September"
+        }else if(getBulan == 10){
+            bulanHuruf  = "Oktober"
+        }else if(getBulan == 11){
+            bulanHuruf   = "November"
+        }else if(getBulan == 12){
+            bulanHuruf  = "Desember"
+        }else{
+            bulanHuruf  = "Januari"
+        }
+        datepicker.text = "$getTanggal $bulanHuruf $getTahun"
 
 
 
@@ -60,33 +92,33 @@ class adminEditNamaDetail : BaseActivity() {
         datepicker.setOnClickListener{
             val dpd = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener{ view, mYear:Int, mMonth:Int, mDay:Int ->
                 // text date
-//            textDeadline.text = ""+ mDay + "-" + (mMonth+1) + "-" + mYear
+                val month = mMonth+1
                 tgl  = mDay.toString()
-                bln  = mMonth.toString()
+                bln  = month.toString()
                 thn  = mYear.toString()
-                if(mMonth == 1){
+                if(month == 1){
                     HurufBulan = "Januari"
-                }else if(mMonth == 2){
+                }else if(month == 2){
                     HurufBulan = "Februari"
-                }else if(mMonth == 3){
+                }else if(month == 3){
                     HurufBulan = "Maret"
-                }else if(mMonth == 4){
+                }else if(month == 4){
                     HurufBulan = "April"
-                }else if(mMonth == 5){
+                }else if(month == 5){
                     HurufBulan= "Mei"
-                }else if(mMonth == 6){
+                }else if(month == 6){
                     HurufBulan = "Juni"
-                }else if(mMonth == 7){
+                }else if(month == 7){
                     HurufBulan  = "Juli"
-                }else if(mMonth == 8){
+                }else if(month == 8){
                     HurufBulan  = "Agustus"
-                }else if(mMonth == 9){
+                }else if(month == 9){
                     HurufBulan  = "September"
-                }else if(mMonth == 10){
+                }else if(month == 10){
                     HurufBulan  = "Oktober"
-                }else if(mMonth == 11){
+                }else if(month == 11){
                     HurufBulan   = "November"
-                }else if(mMonth == 12){
+                }else if(month == 12){
                     HurufBulan  = "Desember"
                 }else{
                     HurufBulan  = "Januari"
@@ -105,7 +137,12 @@ class adminEditNamaDetail : BaseActivity() {
             var detailname =  edtdetail.text.toString()
             if (detailname.isEmpty()){
                 Toast.makeText(this@adminEditNamaDetail,"Data Kosong Mohon Diisi", Toast.LENGTH_LONG).show()
-            }else{
+            }else if(tgl.isEmpty()||bln.isEmpty()||thn.isEmpty()){
+                Toast.makeText(this@adminEditNamaDetail,"Deadline Mohon Diisi",Toast.LENGTH_LONG).show()
+            }
+
+
+            else{
                 val detail = DetailInfo(detailname,id = id, status = getstatus, tanggal = tgl, bulan = bln, tahun = thn)
                 database.child("DetailProyek").child(proyek).child(id)
                     .setValue(detail)
