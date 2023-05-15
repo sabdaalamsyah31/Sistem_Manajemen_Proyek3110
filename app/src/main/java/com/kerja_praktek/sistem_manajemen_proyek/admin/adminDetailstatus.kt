@@ -1,6 +1,6 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -19,13 +19,15 @@ import com.kerja_praktek.sistem_manajemen_proyek.R
 class adminDetailstatus : BaseActivity() {
 
     private lateinit var  database: DatabaseReference
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_edit_detail)
+        setContentView(R.layout.activity_admin_status_detail)
         val detail = findViewById<TextView>(R.id.detail_info)
         val statuscek = findViewById<CheckBox>(R.id.status)
         val btnSelesai = findViewById<Button>(R.id.btn_selesai)
         val txtStatus = findViewById<TextView>(R.id.txt_status)
+        val deadline = findViewById<TextView>(R.id.deadline_Detail)
 
 
 
@@ -35,7 +37,39 @@ class adminDetailstatus : BaseActivity() {
         var namaproyek = intent.getStringExtra("nmProyek")
         var status = intent.getStringExtra("status").toBoolean()
         var id = intent.getStringExtra("id")
+        var tanggal = intent.getStringExtra("tanggal")
+        var RBulan = intent.getStringExtra("bulan")
+        var bulan = RBulan?.toInt()
+        var tahun = intent.getStringExtra("tahun")
 
+
+        var BulanHuruf = ""
+        if(bulan == 1){
+            BulanHuruf = "Januari"
+        }else if(bulan == 2){
+            BulanHuruf = "Februari"
+        }else if(bulan == 3){
+            BulanHuruf = "Maret"
+        }else if (bulan == 4){
+            BulanHuruf = "April"
+        }else if (bulan == 5){
+            BulanHuruf = "Mei"
+        }else if(bulan == 6){
+            BulanHuruf = "Juni"
+        }else if(bulan == 7){
+            BulanHuruf ="Juli"
+        } else if(bulan == 8){
+            BulanHuruf = "Agustus"
+        }else if(bulan == 9){
+            BulanHuruf = "September"
+        }else if (bulan == 10){
+            BulanHuruf = "Oktober"
+        }else if (bulan == 11){
+            BulanHuruf = "November"
+        }else if(bulan == 12){
+            BulanHuruf = "Desember"
+        }
+        deadline.text="$tanggal $BulanHuruf $tahun"
 
         detail.text = cekbox
         database = Firebase.database.reference

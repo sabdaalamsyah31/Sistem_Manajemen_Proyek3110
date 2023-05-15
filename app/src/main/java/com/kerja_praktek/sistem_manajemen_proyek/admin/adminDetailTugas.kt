@@ -84,9 +84,41 @@ class adminDetailTugas : BaseActivity() {
         val programmer2 = intent.getStringExtra("programmer_2")
         val programmer3 = intent.getStringExtra("programmer_3")
         val programmer4 = intent.getStringExtra("programmer_4")
+
+        val bulanInt = bulan?.toInt()
+        var bulanHuruf = ""
+
+
+        if(bulanInt == 1){
+            bulanHuruf = "Januari"
+        }else if(bulanInt == 2){
+            bulanHuruf = "Februari"
+        }else if(bulanInt == 3){
+            bulanHuruf = "Maret"
+        }else if(bulanInt == 4){
+            bulanHuruf = "April"
+        }else if(bulanInt == 5){
+            bulanHuruf= "Mei"
+        }else if(bulanInt == 6){
+            bulanHuruf = "Juni"
+        }else if(bulanInt == 7){
+            bulanHuruf  = "Juli"
+        }else if(bulanInt == 8){
+            bulanHuruf  = "Agustus"
+        }else if(bulanInt == 9){
+            bulanHuruf  = "September"
+        }else if(bulanInt == 10){
+            bulanHuruf  = "Oktober"
+        }else if(bulanInt == 11){
+            bulanHuruf   = "November"
+        }else if(bulanInt == 12){
+            bulanHuruf  = "Desember"
+        }else{
+            bulanHuruf  = "Januari"
+        }
         //setup data to view
         tvNamaProyek.text = nama
-        tvdeadline.text = "$tanggal-$bulan-$tahun"
+        tvdeadline.text = "$tanggal $bulanHuruf $tahun"
         tvManagerProyek.text = manager
         tvProgrammer_1.text = programmer1
         tvProgrammer_2.text = programmer2

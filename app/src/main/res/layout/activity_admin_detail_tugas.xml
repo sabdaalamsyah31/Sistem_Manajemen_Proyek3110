@@ -24,8 +24,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/metrophobic"
-            android:text="16-02-2023"
+            android:text="16 Februari 2023"
             android:textColor="@color/abu2"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <TextView

@@ -45,10 +45,39 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val currentItem = CekboxList[position]
-        val tanggal = currentItem.tanggal
-        val bulan = currentItem.bulan
-        val tahun = currentItem.tahun
-        val TD_Deadline = "$tanggal-$bulan-$tahun"
+        var tanggal = currentItem.tanggal
+        var RBulan = currentItem.bulan
+        var bulan = RBulan?.toInt()
+        var tahun = currentItem.tahun
+        var BulanHuruf = ""
+        if(bulan == 1){
+            BulanHuruf = "Januari"
+        }else if(bulan == 2){
+            BulanHuruf = "Februari"
+        }else if(bulan == 3){
+            BulanHuruf = "Maret"
+        }else if (bulan == 4){
+            BulanHuruf = "April"
+        }else if (bulan == 5){
+            BulanHuruf = "Mei"
+        }else if(bulan == 6){
+            BulanHuruf = "Juni"
+        }else if(bulan == 7){
+            BulanHuruf ="Juli"
+        } else if(bulan == 8){
+            BulanHuruf = "Agustus"
+        }else if(bulan == 9){
+            BulanHuruf = "September"
+        }else if (bulan == 10){
+            BulanHuruf = "Oktober"
+        }else if (bulan == 11){
+            BulanHuruf = "November"
+        }else if(bulan == 12){
+            BulanHuruf = "Desember"
+        }
+
+
+
         var text :String
         val statusbaru = if (currentItem.status == true){
             text = "Sudah DiSelesaikan"
@@ -58,7 +87,7 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
         holder.cekbox.text = currentItem.cekbox
         holder.id.text = currentItem.id.toString()
         holder.status.text = text
-        holder.deadline.text = TD_Deadline
+        holder.deadline.text = "$tanggal $BulanHuruf $tahun"
 //        holder.itemView.setOnClickListener {
 //
 //        }

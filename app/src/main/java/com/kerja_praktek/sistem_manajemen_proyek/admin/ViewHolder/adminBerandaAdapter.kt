@@ -34,6 +34,37 @@ class adminBerandaAdapter(private val proyekList : ArrayList<ProyekInfo>): Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentitem = proyekList[position]
 //        val detailitem = detailProyek[position]
+        var RBulan = currentitem.bulan
+        var bulan = RBulan?.toInt()
+        var tanggal = currentitem.tanggal
+        var tahun = currentitem.tahun
+        var BulanHuruf =""
+        if(bulan == 1){
+            BulanHuruf = "Januari"
+        }else if(bulan == 2){
+            BulanHuruf = "Februari"
+        }else if(bulan == 3){
+            BulanHuruf = "Maret"
+        }else if (bulan == 4){
+            BulanHuruf = "April"
+        }else if (bulan == 5){
+            BulanHuruf = "Mei"
+        }else if(bulan == 6){
+            BulanHuruf = "Juni"
+        }else if(bulan == 7){
+            BulanHuruf ="Juli"
+        } else if(bulan == 8){
+            BulanHuruf = "Agustus"
+        }else if(bulan == 9){
+            BulanHuruf = "September"
+        }else if (bulan == 10){
+            BulanHuruf = "Oktober"
+        }else if (bulan == 11){
+            BulanHuruf = "November"
+        }else if(bulan == 12){
+            BulanHuruf = "Desember"
+        }
+        holder.deadline.text = "$tanggal $BulanHuruf $tahun"
         holder.proyekname.text = currentitem.namaProyek
         holder.Mproyek.text = currentitem.manager
         holder.Progrmmr1.text = currentitem.programmer_1
@@ -57,6 +88,7 @@ class adminBerandaAdapter(private val proyekList : ArrayList<ProyekInfo>): Recyc
         val Progrmmr2: TextView = itemview.findViewById(R.id.tv_Prog2)
         val progrmmr3: TextView = itemview.findViewById(R.id.tv_Prog3)
         val progrmmr4: TextView = itemview.findViewById(R.id.tv_Prog4)
+        val deadline: TextView = itemview.findViewById(R.id.deadlineBeranda)
 
         init {
             itemview.setOnClickListener {

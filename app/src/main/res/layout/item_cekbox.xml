@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".ItemCekbox">
+    tools:context=".Notification">
 
     <LinearLayout
         android:layout_width="360dp"
@@ -69,7 +69,7 @@
             android:layout_gravity="center|top"
             android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
-            android:text="16-02-2023"
+            android:text="16 November 2023"
             android:textColor="#424242"
             android:textSize="10sp" />
 

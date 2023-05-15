@@ -80,7 +80,7 @@ class adminTambahkanTugas : BaseActivity() {
 
 
         Deadline.setOnClickListener {
-            val dpd = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener{view, mYear:Int, mMonth:Int, mDay:Int ->
+            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, mYear:Int, mMonth:Int, mDay:Int ->
                 // text date
                 val month = mMonth+1
                 tglDeadline = mDay.toString()

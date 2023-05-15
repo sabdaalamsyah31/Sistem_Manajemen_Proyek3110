@@ -21,12 +21,23 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView9">
 
         <TextView
+            android:id="@+id/deadline_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingRight="16dp"
+            android:text="16 Desember 2023"
+            android:textAlignment="viewEnd"
+            android:textColor="#80FFFFFF"
+            android:textSize="10sp" />
+
+        <TextView
             android:id="@+id/txt_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="true or false"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/detail_info"
@@ -68,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/metrophobic"
-            android:text="Edit Status Detail"
+            android:text="Status Detail"
             android:textColor="@color/abu2"
             android:textSize="16sp"
             android:textStyle="bold" />
