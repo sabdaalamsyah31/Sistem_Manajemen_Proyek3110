@@ -19,6 +19,7 @@ import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -68,6 +69,8 @@ class adminTambahkanTugas : BaseActivity() {
         val batalkan = findViewById<Button>(R.id.btnBatalkan)
 
 //        var ListUser = arrayListOf<String>()
+
+//        forSpinner()
 
 
         database = Firebase.database.reference
@@ -167,13 +170,12 @@ class adminTambahkanTugas : BaseActivity() {
                     .setValue(Proyek)
                     .addOnCompleteListener{ task ->
                         if (task.isSuccessful){
-//                            database.child("DetailProyek").child(nmProyek.toString()).setValue(nmProyek)
                             Toast.makeText(this@adminTambahkanTugas,"Selanjutnya Tambahkan Detail", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@adminTambahkanTugas,adminTambahTugas_Detail::class.java)
                             intent.putExtra("namaProyek",NamaProyek)
                             startActivity(intent)
                         }else{
-                            Toast.makeText(this@adminTambahkanTugas,"Data Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahkanTugas,"NotificationData Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -187,12 +189,189 @@ class adminTambahkanTugas : BaseActivity() {
 
     private fun spinner() {
 
+        database= FirebaseDatabase.getInstance().getReference("Users")
+        database.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val UserProgrammer:MutableList<String?> = ArrayList()
+                val ManagerProgrammer:MutableList<String?> = ArrayList()
+                for(snap in snapshot.children){
 
-        val anggota_1 = findViewById<Spinner>(R.id.edt_Programmer1)
-        val anggota_2 = findViewById<Spinner>(R.id.edt_Programmer2)
-        val anggota_3 = findViewById<Spinner>(R.id.edt_Programmer3)
-        var anggota_4 = findViewById<Spinner>(R.id.edt_Programmer4)
-        val nmManager = findViewById<Spinner>(R.id.edtManagerProyek)
+
+                    val Programmer = snap.child("nama").getValue(String::class.java)
+                    val Manager = snap.child("nama").getValue(String::class.java)
+
+
+
+                    ManagerProgrammer.add(Manager)
+                    UserProgrammer.add(Programmer)
+
+                }
+                UserProgrammer.add(0,"Tentukan Programmer")
+                ManagerProgrammer.add(0,"Tentukan Manager Proyek")
+
+                val anggota_1 = findViewById<View>(R.id.edt_Programmer1) as Spinner
+                val anggota_2 = findViewById<View>(R.id.edt_Programmer2) as Spinner
+                val anggota_3 = findViewById<View>(R.id.edt_Programmer3) as Spinner
+                var anggota_4 = findViewById<View>(R.id.edt_Programmer4) as Spinner
+                val nmManager = findViewById<View>(R.id.edtManagerProyek) as Spinner
+
+
+
+                val ProgrammerarrayAdapter = object:ArrayAdapter<String?>(this@adminTambahkanTugas,android.R.layout.simple_spinner_item,UserProgrammer){
+                    override fun isEnabled(position: Int): Boolean {
+//                        data dari firebase sudah masuk tapi hint belum bisa di atasi belum terapat Hint "Tentukan Programmer"
+                        position == 0
+                        return position != 0
+                    }
+
+                    override fun getDropDownView(
+                        position: Int,
+                        convertView: View?,
+                        parent: ViewGroup
+                    ): View {
+                        val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
+//                set color hint
+                        if(position == 0){
+                            view.setTextColor(Color.GRAY)
+                        }else{
+
+                        }
+                        return view
+                    }
+                }
+                ProgrammerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+
+
+
+                val ManagerarrayAdapter = object:ArrayAdapter<String>(this@adminTambahkanTugas,android.R.layout.simple_spinner_item,ManagerProgrammer){
+                    override fun isEnabled(position: Int): Boolean {
+//
+                        return position != 0
+                    }
+
+                    override fun getDropDownView(
+                        position: Int,
+                        convertView: View?,
+                        parent: ViewGroup
+                    ): View {
+                        val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
+//                set color hint
+                        if(position == 0){
+                            view.setTextColor(Color.GRAY)
+                        }else{
+
+                        }
+                        return view
+                    }
+                }
+                ManagerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+
+
+                nmManager.adapter = ManagerarrayAdapter
+                nmManager.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+
+                        namaMananger = UserProgrammer[position].toString()
+//                judul.text = ListUser[position]
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+                anggota_1.adapter = ProgrammerarrayAdapter
+                anggota_1.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+
+                        anggota1 = UserProgrammer[position].toString()
+//                Toast.makeText(applicationContext,"$anggota1", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+                anggota_2.adapter = ProgrammerarrayAdapter
+                anggota_2.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+
+                        anggota2 = UserProgrammer[position].toString()
+//                Toast.makeText(applicationContext,"$anggota2", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+                anggota_3.adapter = ProgrammerarrayAdapter
+                anggota_3.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+
+                        anggota3 = UserProgrammer[position].toString()
+//                Toast.makeText(applicationContext,"$anggota3", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+                anggota_4.adapter = ProgrammerarrayAdapter
+                anggota_4.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if(position == 0){
+
+                        }
+                        anggota4 = UserProgrammer[position].toString()
+//                Toast.makeText(applicationContext,ListUser[position], Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+
+
 
 
 //        val user = arrayOf(ListUser)
@@ -206,150 +385,6 @@ class adminTambahkanTugas : BaseActivity() {
             "Ghufron","Bayu Grafit","Hermanto","MagangSatu",
             "MagangDua","MagangTiga","Nova Ariyanto","Panji Cahyono",
             "Tomi Kurniawan")
-        val ProgrammerarrayAdapter = object:ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,NamaProgrammer){
-            override fun isEnabled(position: Int): Boolean {
-//
-                return position != 0
-            }
 
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-                val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
-//                set color hint
-                if(position == 0){
-                    view.setTextColor(Color.GRAY)
-                }else{
-
-                }
-                return view
-            }
-        }
-        ProgrammerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-
-
-
-        val ManagerarrayAdapter = object:ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,NamaManager){
-            override fun isEnabled(position: Int): Boolean {
-//
-                return position != 0
-            }
-
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-                val view : TextView = super.getDropDownView(position, convertView, parent) as TextView
-//                set color hint
-                if(position == 0){
-                    view.setTextColor(Color.GRAY)
-                }else{
-
-                }
-                return view
-            }
-        }
-        ManagerarrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-
-
-        nmManager.adapter = ManagerarrayAdapter
-        nmManager.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                namaMananger = NamaManager[position]
-//                judul.text = ListUser[position]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-        anggota_1.adapter = ProgrammerarrayAdapter
-        anggota_1.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                anggota1 = NamaProgrammer[position]
-//                Toast.makeText(applicationContext,"$anggota1", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-        anggota_2.adapter = ProgrammerarrayAdapter
-        anggota_2.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                anggota2 = NamaProgrammer[position]
-//                Toast.makeText(applicationContext,"$anggota2", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-        anggota_3.adapter = ProgrammerarrayAdapter
-        anggota_3.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                anggota3 = NamaProgrammer[position]
-//                Toast.makeText(applicationContext,"$anggota3", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-        anggota_4.adapter = ProgrammerarrayAdapter
-        anggota_4.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val default = arrayOf("Programmer")
-                if(position == 0){
-
-                }
-                anggota4 = NamaProgrammer[position]
-//                Toast.makeText(applicationContext,ListUser[position], Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
     }
 }

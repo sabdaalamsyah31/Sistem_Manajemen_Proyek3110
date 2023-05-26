@@ -10,13 +10,19 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="Programmer">Tentukan_Programmer</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-<!--    datepicker style-->
+
+    <!--    datepicker style-->
     <style name="mydatepicker">
-    <item name="android:textColorPrimary">@color/abu2</item>
+        <item name="android:textColorPrimary">@color/abu2</item>
         <item name="colorControlNormal">@color/abu2</item>
 
     </style>
+
+    <string name="title_activity_register">activity_register</string>
+    <string name="default_notification_channel_id">this notif</string>
+    <string name="msg_token_fmt">Tokennya adalah</string>
 </resources>

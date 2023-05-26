@@ -6,16 +6,20 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.Constant
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.PreferencesHelper
 import com.kerja_praktek.sistem_manajemen_proyek.Model.UsersInfo
+//import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.FirebaseIDService
 import com.kerja_praktek.sistem_manajemen_proyek.User.UserBeranda
 import com.kerja_praktek.sistem_manajemen_proyek.admin.adminBeranda
 
@@ -31,15 +35,37 @@ class Login : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
+
         var editUser = findViewById<EditText>(R.id.edt_Username)
         var editPass = findViewById<EditText>(R.id.edt_Password)
 
 //        Button
         var btnLogin = findViewById<Button>(R.id.btn_Login)
 
+        var token :String?
+
         database = Firebase.database.reference
 //        auth = FirebaseAuth.getInstance()
         sharedPref = PreferencesHelper(this)
+        Firebase.messaging.isAutoInitEnabled = true
+        fun getToken() {
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
+
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                token = task.result
+
+                // Log and toast
+                val msg = ("ini adalah Tokennya : $token")
+                Log.d(TAG, msg)
+                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            })
+        }
 
         fun startLogin(){
             val username = editUser.text.toString().trim()
@@ -79,10 +105,11 @@ class Login : BaseActivity() {
                                     Toast.makeText(applicationContext,"Selamat Datang $resultUsername Sebagai $resultJabatan", Toast.LENGTH_SHORT).show()
 
                                     val GotoAdminBeranda = Intent(applicationContext,adminBeranda::class.java)
+
                                     GotoAdminBeranda.putExtra("Username",Userdata.Nama)
                                     startActivity(GotoAdminBeranda)
                                 } else{
-                                    Toast.makeText(applicationContext,"Data Login Salah", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext,"NotificationData Login Salah", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -93,7 +120,11 @@ class Login : BaseActivity() {
 
                     })
             }
-
+// masukan notification masih belum selesai
+// tambahkan fitur upload foto screenshot untuk dikirim programmer untuk bukti program atau progress sudah di selesaikan
+// tambahkan fitur get image dan visibility button untuk melihat foto dari detail kalau sudah terselesaikan atau foto sudah ada
+//  logika kalau foto belum ada dan ceklist di isi maka tidak bisa di selesaikan karena foto harus tersedia
+//  fitur mengedit foto untuk programmer mengajukan dn juga fitur comment dari admin atau manager proyek
 
             else if(username.equals(username)&&password.equals(password)) {
                 val ProgrammerUser = username
@@ -112,17 +143,53 @@ class Login : BaseActivity() {
 
 
 
-                            if (username.equals(Resultusername)&&password.equals(Resultpassword)){
+                            if (username.equals(Resultusername)&&password.equals(Resultpassword)&&Resultjabatan.equals("Programmer")||Resultjabatan.equals("Magang")){
+
+                                getToken()
+                                sharedPref.put(Constant.PREF_USERNAME,Resultusername)
+                                sharedPref.put(Constant.PREF_PASSWORD,Resultpassword)
+                                sharedPref.put(Constant.PREF_JABATAN,Resultjabatan)
+                                sharedPref.put(Constant.PREF_NAMA,Resultnama)
+                                sharedPref.put(Constant.PREF_IS_LOGIN,true)
+                                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
+
+                                    if (!task.isSuccessful) {
+                                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
+
+                                    // Get new FCM registration token
+                                    token = task.result
+                                    database.child("token").child(Resultusername).setValue(token).addOnCompleteListener{ task->
+                                        if(!task.isSuccessful){
+
+                                        }else{
+//                                            val msg = ("ini adalah Tokennya : $token")
+//                                            Log.d(TAG, msg)
+//                                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+
+                                    // Log and toast
+
+                                })
+                                Toast.makeText(applicationContext,"Selamat Datang $Resultusername sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
+                                val GotoUserBeranda = Intent(applicationContext,UserBeranda::class.java)
+                                GotoUserBeranda.putExtra("Username",Userdata.Username)
+                                startActivity(GotoUserBeranda)
+                            } else if(username.equals(Resultusername)&&password.equals(Resultpassword)&&Resultjabatan.equals("Manager Proyek")){
                                 sharedPref.put(Constant.PREF_USERNAME,Resultusername)
                                 sharedPref.put(Constant.PREF_PASSWORD,Resultpassword)
                                 sharedPref.put(Constant.PREF_JABATAN,Resultjabatan)
                                 sharedPref.put(Constant.PREF_NAMA,Resultnama)
                                 sharedPref.put(Constant.PREF_IS_LOGIN,true)
                                 Toast.makeText(applicationContext,"Selamat Datang $Resultusername sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
-                                val GotoUserBeranda = Intent(applicationContext,UserBeranda::class.java)
-                                GotoUserBeranda.putExtra("Username",Userdata.Username)
-                                startActivity(GotoUserBeranda)
-                            } else{}
+                                val GotoAdminBeranda = Intent(applicationContext,adminBeranda::class.java)
+//                                FirebaseIDService()
+                                GotoAdminBeranda.putExtra("Username",Userdata.Nama)
+                                startActivity(GotoAdminBeranda)
+
+                            }
                         }
                     }
 
@@ -135,6 +202,7 @@ class Login : BaseActivity() {
             else {}
 //                if(username.equals("admin")&&password.equals("admin"))
         }
+
         btnLogin.setOnClickListener {
             startLogin()
         }
@@ -142,22 +210,29 @@ class Login : BaseActivity() {
 
 
     }
- override fun onStart(){
+
+
+
+    override fun onStart(){
      super.onStart()
      if(sharedPref.getBoolean(Constant.PREF_IS_LOGIN)){
             moveIntent()
             }
+
         }
     private fun moveIntent(){
-        val jabatan = "Administrator"
-        if (sharedPref.getString(Constant.PREF_JABATAN).equals(jabatan)){
+        val Admin = "Administrator"
+        val Manager = "Manager Proyek"
+        if (sharedPref.getString(Constant.PREF_JABATAN).equals(Admin)||sharedPref.getString(Constant.PREF_JABATAN).equals(Manager)){
                     startActivity(Intent(this, adminBeranda::class.java))
         }else{
             startActivity(Intent(this,UserBeranda::class.java))
         }
-//        sharedPref.getString(Constant.PREF_JABATAN)
+//        sharedPref.getString(Constants.PREF_JABATAN)
 
 //        finish()
 
     }
+
+
     }

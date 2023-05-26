@@ -190,14 +190,14 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                     .setValue(adddetail)
                     .addOnCompleteListener{task->
                         if (task.isSuccessful){
-                            Toast.makeText(this@adminTambahTugas_DetailLagi,"Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahTugas_DetailLagi,"NotificationData Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                             edtTugas.setText("")
                             getIDagain()
 //                            id
 //                            count++
 //                            var idnumber =
                         }else{
-                            Toast.makeText(this@adminTambahTugas_DetailLagi,"Data Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahTugas_DetailLagi,"NotificationData Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -213,7 +213,7 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                     finish()
                 }
                 .setNegativeButton("Tidak"){dialog,id->
-                    Toast.makeText(applicationContext,"Silahkan Tambahkan Data Lagi",Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,"Silahkan Tambahkan NotificationData Lagi",Toast.LENGTH_LONG).show()
                 }
             val alert = buildMessage.create()
             alert.show()

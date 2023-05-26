@@ -95,7 +95,7 @@
             android:fontFamily="@font/metrophobic"
             android:text="Tambahkan Detail Proyek"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView

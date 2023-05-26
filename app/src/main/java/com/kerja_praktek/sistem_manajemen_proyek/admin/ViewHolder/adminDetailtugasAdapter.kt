@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
-import com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder.UsrDetailTugasViewHolder
 
 class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): RecyclerView.Adapter<adminDetailtugasAdapter.ViewHolder>() {
 //    private lateinit var database: DatabaseReference

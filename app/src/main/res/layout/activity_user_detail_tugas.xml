@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:text="Nama Tugas Proyek"
                     android:textColor="@color/abu2"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 

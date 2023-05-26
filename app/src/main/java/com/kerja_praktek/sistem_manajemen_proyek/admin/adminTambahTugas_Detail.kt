@@ -152,13 +152,13 @@ class adminTambahTugas_Detail : BaseActivity() {
                     .setValue(detail)
                     .addOnCompleteListener{task->
                         if (task.isSuccessful){
-                            Toast.makeText(this@adminTambahTugas_Detail,"Data Berhasil Ditambahkan",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminTambahTugas_Detail,"NotificationData Berhasil Ditambahkan",Toast.LENGTH_LONG).show()
                             edtDetail.setText("")
                             tanggal.isEmpty()
                             bulan.isEmpty()
                             tahun.isEmpty()
                         }else{
-                            Toast.makeText(this@adminTambahTugas_Detail,"Data Gagal Ditambahkan",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminTambahTugas_Detail,"NotificationData Gagal Ditambahkan",Toast.LENGTH_LONG).show()
                         }
                     }
             }
@@ -178,7 +178,7 @@ class adminTambahTugas_Detail : BaseActivity() {
                     finish()
                 }
                 .setNegativeButton("Tidak"){dialog,id->
-                    Toast.makeText(applicationContext,"Silahkan Tambahkan Data Lagi",Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,"Silahkan Tambahkan NotificationData Lagi",Toast.LENGTH_LONG).show()
                 }
             val alert = buildMessage.create()
             alert.show()

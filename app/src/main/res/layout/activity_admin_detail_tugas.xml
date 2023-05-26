@@ -38,6 +38,7 @@
             android:fontFamily="@font/metrophobic"
             android:text="Detail Proyek"
             android:textColor="@color/abu2"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
             android:fontFamily="@font/metrophobic"
             android:text="Nama Tugas (Dummy)"
             android:textColor="@color/abu2"
-            android:textSize="16sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 

@@ -2,26 +2,29 @@ package com.kerja_praktek.sistem_manajemen_proyek.User
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.messaging.FirebaseMessaging
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.*
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.Constant
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.PreferencesHelper
 import com.kerja_praktek.sistem_manajemen_proyek.Login
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.NotificationAPI
+//import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.Client
+//import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.NotificationData
+//import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.PushNotification
 import com.kerja_praktek.sistem_manajemen_proyek.R
+import com.kerja_praktek.sistem_manajemen_proyek.TOPIC
 import com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder.UserBerandaAdapter
-import java.util.Locale
 
 class UserBeranda : BaseActivity() {
 
@@ -32,6 +35,7 @@ class UserBeranda : BaseActivity() {
     private lateinit var userRvBeranda : RecyclerView
     private lateinit var database: DatabaseReference
     private lateinit var userListProyek : ArrayList<ProyekInfo>
+    private lateinit var notificationApi: NotificationAPI
 //    private lateinit var adapter:UserBerandaAdapter
     private var clicked = false
 
@@ -45,9 +49,11 @@ class UserBeranda : BaseActivity() {
         val btnLogOut = findViewById<FloatingActionButton>(R.id.btn_userLogout)
         UserGetProyekinfo()
         sharedPref = PreferencesHelper(this)
+
         val user = findViewById<TextView>(R.id.tv_userUsername)
 //        val namauser = intent.getStringExtra("Username")
-
+//        sendNotification()
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
         val username = sharedPref.getString(Constant.PREF_NAMA).toString()
         user.text = username
 
@@ -63,9 +69,13 @@ class UserBeranda : BaseActivity() {
             sharedPref.clear()
             toLogOut()
         }
+    }
 
-
-
+    private fun sendNotification(usertoken:String,title:String,message:String) {
+        var notificationData =
+            NotificationData(title, message)
+        var sender : PushNotification = PushNotification(notificationData,usertoken)
+        notificationApi
     }
 
     private fun toLogOut() {
@@ -73,24 +83,6 @@ class UserBeranda : BaseActivity() {
         finish()
     }
 //    filtering proyek user
-    private fun filterList(){
-        val username = sharedPref.getString(Constant.PREF_USERNAME).toString()
-        val filteredList = ArrayList<ProyekInfo>()
-        val adapter = UserBerandaAdapter(userListProyek)
-        for(i in userListProyek){
-            if(i.programmer_1!!.lowercase(Locale.ROOT).contains(username)|| i.programmer_2!!.lowercase(Locale.ROOT).contains(username)||i
-                    .programmer_3!!.lowercase(Locale.ROOT).contains(username)||i.programmer_4!!.lowercase(Locale.ROOT).contains(username)||
-                    i.manager!!.lowercase(Locale.ROOT).contains(username)){
-                filteredList.add(i)
-            }else if(filteredList.isEmpty()){
-                Toast.makeText(this,"Anda Belum Memiliki Proyek",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                adapter.setFilteredList(filteredList)
-            }
-        }
-    }
-
     private fun UserGetProyekinfo(){
         database = FirebaseDatabase.getInstance().getReference("Proyek")
         database.addValueEventListener(object : ValueEventListener{

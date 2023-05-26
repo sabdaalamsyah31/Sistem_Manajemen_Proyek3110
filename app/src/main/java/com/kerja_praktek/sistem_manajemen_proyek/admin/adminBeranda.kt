@@ -1,16 +1,18 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,6 +23,8 @@ import com.kerja_praktek.sistem_manajemen_proyek.Helper.PreferencesHelper
 import com.kerja_praktek.sistem_manajemen_proyek.Login
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
+import com.kerja_praktek.sistem_manajemen_proyek.Register
+import com.kerja_praktek.sistem_manajemen_proyek.Send_Notif
 import com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder.adminBerandaAdapter
 
 class adminBeranda : BaseActivity() {
@@ -35,6 +39,8 @@ class adminBeranda : BaseActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var ListProyek: ArrayList<ProyekInfo>
     private var clicked = false
+
+
 //    @SuppressLint("MissingInflatedId")
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +49,8 @@ class adminBeranda : BaseActivity() {
         val logOut = findViewById<FloatingActionButton>(R.id.btn_logOut)
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
+        var btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
+        var btnNotif = findViewById<FloatingActionButton>(R.id.btn_notif)
         sharedPref = PreferencesHelper(this)
         val user = findViewById<TextView>(R.id.tv_username)
 //        val namauser = intent.getStringExtra("Username")
@@ -53,6 +61,9 @@ class adminBeranda : BaseActivity() {
         rv_item = findViewById(R.id.rv_Proyek)
         rv_item.layoutManager = LinearLayoutManager(this)
         ListProyek = arrayListOf<ProyekInfo>()
+
+
+
 
         database = FirebaseDatabase.getInstance().getReference("Proyek")
 
@@ -70,6 +81,17 @@ class adminBeranda : BaseActivity() {
             sharedPref.clear()
             toLogout()
         }
+        btnRegister.setOnClickListener {
+            val toRegister = Intent(applicationContext, Register::class.java)
+            startActivity(toRegister)
+        }
+        btnNotif.setOnClickListener {
+            val toSendNotif = Intent(applicationContext, Send_Notif::class.java)
+            startActivity(toSendNotif)
+        }
+
+
+
 
     }
     private fun toLogout() {
@@ -87,26 +109,32 @@ class adminBeranda : BaseActivity() {
         val logOut = findViewById<FloatingActionButton>(R.id.btn_logOut)
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
+        val btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
 
         if(!clicked){
             btnTambahkan.visibility = View.VISIBLE
             logOut.visibility = View.VISIBLE
+            btnRegister.visibility = View.VISIBLE
         }else{
             btnTambahkan.visibility = View.INVISIBLE
             logOut.visibility = View.INVISIBLE
+            btnRegister.visibility = View.INVISIBLE
         }
     }
     private fun setanimation(clicked: Boolean) {
         val logOut = findViewById<FloatingActionButton>(R.id.btn_logOut)
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
+        val btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
         if (!clicked) {
             btnTambahkan.startAnimation(fromBottom)
             logOut.startAnimation(fromBottom)
+            btnRegister.startAnimation(fromBottom)
             action.startAnimation(rotateOpen)
         }else{
             btnTambahkan.startAnimation(toBottom)
             logOut.startAnimation(toBottom)
+            btnRegister.startAnimation(toBottom)
             action.startAnimation(rotateClose)
         }
     }
@@ -115,12 +143,15 @@ class adminBeranda : BaseActivity() {
         val logOut = findViewById<FloatingActionButton>(R.id.btn_logOut)
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
+        val btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
         if(!clicked){
             btnTambahkan.isClickable = false
             logOut.isClickable = false
+            btnRegister.isClickable = false
         } else{
             btnTambahkan.isClickable = true
             logOut.isClickable = true
+            btnRegister.isClickable = true
         }
     }
 
@@ -168,5 +199,35 @@ class adminBeranda : BaseActivity() {
         })
     }
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
+
+
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
 
 }

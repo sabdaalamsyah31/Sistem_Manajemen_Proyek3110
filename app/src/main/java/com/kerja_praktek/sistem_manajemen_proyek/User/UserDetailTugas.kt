@@ -1,7 +1,7 @@
 package com.kerja_praktek.sistem_manajemen_proyek.User
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -14,7 +14,8 @@ import com.google.firebase.ktx.Firebase
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
-import com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder.UsrDetailTugasViewHolder
+import com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder.UsrDetailTugasAdapter
+import com.kerja_praktek.sistem_manajemen_proyek.admin.adminDetailstatus
 
 class UserDetailTugas : BaseActivity() {
     private val TAG = "UserDetailTugas"
@@ -41,6 +42,7 @@ class UserDetailTugas : BaseActivity() {
         val nama = intent.getStringExtra("namaProyek")
         val manager = intent.getStringExtra("managerProyek")
         val tanggal = intent.getStringExtra("tanggal")
+
         val bulan = intent.getStringExtra("bulan")
         val tahun = intent.getStringExtra("tahun")
         val programmer1 = intent.getStringExtra("programmer1")
@@ -57,11 +59,43 @@ class UserDetailTugas : BaseActivity() {
         anggota3 = findViewById(R.id.user_programmer3)
         anggota4 = findViewById(R.id.user_programmer4)
 
+        val bulanInt = bulan?.toInt()
+        var bulanHuruf = ""
+
+
+        if(bulanInt == 1){
+            bulanHuruf = "Januari"
+        }else if(bulanInt == 2){
+            bulanHuruf = "Februari"
+        }else if(bulanInt == 3){
+            bulanHuruf = "Maret"
+        }else if(bulanInt == 4){
+            bulanHuruf = "April"
+        }else if(bulanInt == 5){
+            bulanHuruf= "Mei"
+        }else if(bulanInt == 6){
+            bulanHuruf = "Juni"
+        }else if(bulanInt == 7){
+            bulanHuruf  = "Juli"
+        }else if(bulanInt == 8){
+            bulanHuruf  = "Agustus"
+        }else if(bulanInt == 9){
+            bulanHuruf  = "September"
+        }else if(bulanInt == 10){
+            bulanHuruf  = "Oktober"
+        }else if(bulanInt == 11){
+            bulanHuruf   = "November"
+        }else if(bulanInt == 12){
+            bulanHuruf  = "Desember"
+        }else{
+            bulanHuruf  = "Januari"
+        }
+
 
 
         tvnmProyek.text = nama
         tvManagerProyek.text = manager
-        tvDeadline.text = "$tanggal-$bulan-$tahun"
+        tvDeadline.text = "$tanggal $bulanHuruf $tahun"
         anggota1.text = programmer1
         anggota2.text = programmer2
         anggota3.text = programmer3
@@ -87,8 +121,24 @@ class UserDetailTugas : BaseActivity() {
     }
 
     private fun userSetupadapter(){
-        val adapter = UsrDetailTugasViewHolder(Userlistdataproyek)
+        val namaproyek = intent.getStringExtra("namaProyek")
+        val adapter = UsrDetailTugasAdapter(Userlistdataproyek)
         rvProyek.adapter = adapter
+
+        adapter.setOnItemClickListener(object : UsrDetailTugasAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val intent = Intent(this@UserDetailTugas, UserDetailStatus::class.java)
+                intent.putExtra("nmProyek",namaproyek)
+                intent.putExtra("tanggal",Userlistdataproyek[position].tanggal)
+                intent.putExtra("bulan",Userlistdataproyek[position].bulan)
+                intent.putExtra("tahun",Userlistdataproyek[position].tahun)
+                intent.putExtra("cekbox",Userlistdataproyek[position].cekbox)
+                intent.putExtra("status",Userlistdataproyek[position].status)
+                intent.putExtra("id",Userlistdataproyek[position].id)
+                startActivity(intent)
+            }
+
+        })
     }
 
     fun usergetDetailProyek(){

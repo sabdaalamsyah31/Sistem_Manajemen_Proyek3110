@@ -136,7 +136,7 @@ class adminEditNamaDetail : BaseActivity() {
 //            val status = getstatus.toBoolean()
             var detailname =  edtdetail.text.toString()
             if (detailname.isEmpty()){
-                Toast.makeText(this@adminEditNamaDetail,"Data Kosong Mohon Diisi", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@adminEditNamaDetail,"NotificationData Kosong Mohon Diisi", Toast.LENGTH_LONG).show()
             }else if(tgl.isEmpty()||bln.isEmpty()||thn.isEmpty()){
                 Toast.makeText(this@adminEditNamaDetail,"Deadline Mohon Diisi",Toast.LENGTH_LONG).show()
             }
@@ -148,10 +148,10 @@ class adminEditNamaDetail : BaseActivity() {
                     .setValue(detail)
                     .addOnCompleteListener{task->
                         if(task.isSuccessful){
-                            Toast.makeText(this@adminEditNamaDetail,"Data Berhasil Diubah", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminEditNamaDetail,"NotificationData Berhasil Diubah", Toast.LENGTH_LONG).show()
                             finish()
                         }else{
-                            Toast.makeText(this@adminEditNamaDetail,"Data Gagal Dirubah", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminEditNamaDetail,"NotificationData Gagal Dirubah", Toast.LENGTH_LONG).show()
                             edtdetail.setText("")
                         }
                     }

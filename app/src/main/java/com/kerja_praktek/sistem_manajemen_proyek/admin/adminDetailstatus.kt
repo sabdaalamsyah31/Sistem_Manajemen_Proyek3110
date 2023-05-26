@@ -88,7 +88,7 @@ class adminDetailstatus : BaseActivity() {
 
                     }else{
 
-                        Toast.makeText(this@adminDetailstatus,"Data Base Kosong", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@adminDetailstatus,"NotificationData Base Kosong", Toast.LENGTH_SHORT).show()
                     }
 
 
@@ -109,15 +109,15 @@ class adminDetailstatus : BaseActivity() {
             database=Firebase.database.reference
             var status =statuscek.isChecked
 
-            val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status)
+            val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status, tanggal = "", bulan = "", tahun = "")
             database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
                 .setValue(detailinfo)
                 .addOnCompleteListener{ task->
                     if (task.isSuccessful){
-                        Toast.makeText(this@adminDetailstatus,"Data Berhasil Diinput    ", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@adminDetailstatus,"NotificationData Berhasil Diinput    ", Toast.LENGTH_LONG).show()
                         finish()
                     }else{
-                        Toast.makeText(this@adminDetailstatus,"Data Gagal Diinput", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@adminDetailstatus,"NotificationData Gagal Diinput", Toast.LENGTH_LONG).show()
                     }
                 }
 

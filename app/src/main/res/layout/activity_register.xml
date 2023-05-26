@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/iphone_13_pro_max___4"
+    android:backgroundTint="@color/merah_terbaru"
+    tools:context=".Register">
+
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/_672226403878_removebg_preview" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/metrophobic"
+            android:text="Registrasi Akun Programmer"
+            android:textAlignment="center"
+            android:textColor="@color/abu2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout12"
+        android:layout_width="360dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/rounded_button3"
+        android:backgroundTint="#77000000"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
+
+        <EditText
+            android:id="@+id/reg_nama"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="Nama Programmer"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColor="@color/abu2"
+            android:textColorHint="@color/abu2_Hint" />
+
+        <Spinner
+            android:id="@+id/reg_Jabatan"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:fontFamily="@font/metrophobic"
+            android:hint="Anggota Proyek"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColor="@color/abu2"
+            android:textColorHint="#C9C9C9"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/reg_Username"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Username Programmer"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColor="@color/abu2"
+            android:textColorHint="@color/abu_trans" />
+
+        <EditText
+            android:id="@+id/reg_password"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColor="@color/abu2"
+            android:textColorHint="@color/abu2_Hint" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/Merah_Bata"
+        android:fontFamily="@font/metrophobic"
+        android:text="Registrasi"
+        android:textColor="@color/abu2"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+
+    <Button
+        android:id="@+id/reg_btnBatalkan"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/Merah_Bata"
+        android:fontFamily="@font/metrophobic"
+        android:text="Batalkan"
+        android:textColor="@color/abu2"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
