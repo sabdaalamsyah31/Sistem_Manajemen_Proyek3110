@@ -180,9 +180,15 @@ class adminTambahkanTugas : BaseActivity() {
                             Toast.makeText(this@adminTambahkanTugas,"Selanjutnya Tambahkan Detail", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@adminTambahkanTugas,adminTambahTugas_Detail::class.java)
                             intent.putExtra("namaProyek",NamaProyek)
+                            intent.putExtra("Programmer1",Programmer_1)
+                            intent.putExtra("Programmer2",Programmer_2)
+                            intent.putExtra("Programmer3",Programmer_3)
+                            intent.putExtra("Programmer4",Programmer_4)
                             startActivity(intent)
+
                         }else{
                             Toast.makeText(this@adminTambahkanTugas,"NotificationData Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
             }

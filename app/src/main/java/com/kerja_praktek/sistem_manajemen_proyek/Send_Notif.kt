@@ -109,7 +109,7 @@ class Send_Notif : AppCompatActivity() {
         val title_notif = findViewById<TextView>(R.id.title_notif)
         val message_notif = findViewById<TextView>(R.id.message_notif)
         val title:String = "Title Coba"
-        val token2 = "fv8U3bUBQzCueMdNQ_cR_z:APA91bHn2U70SOfqBkyw3Q_ob-xRzk5k-vrCDcK3oi-hkQ-ZJhkbBY883Zvbcty_jtWQ9qVY0biAg-58o7EB4W6bgc996zfKb9pdGYNjXbetqDMvt9pCAvRECuFOfZzbtyGEc2oozOPO"
+        val token2 = "dbmgg7nKSCeOQ7Khwj9zPY:APA91bHFFlzTMZNKpusNQFLg5jsUByf9Tl56e3ANZbfZDjE213sPS4T-bnt-ZzjLkZ6gCcxO1qFziMqzO_lp_AVEDcWVY0KI_DHCKIsc98ImLM4HQ2XLyNLTh_HXYNzZx5Lge9iH2-lh"
         val message:String = "Message Coba"
         PushNotification(
             NotificationData(title, message),

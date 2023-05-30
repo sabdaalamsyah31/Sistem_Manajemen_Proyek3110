@@ -1,5 +1,6 @@
 package com.kerja_praktek.sistem_manajemen_proyek.User.ViewHolder
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,15 +28,6 @@ class UsrDetailTugasAdapter(private val UserCekbox : ArrayList<DetailInfo>): Rec
 
     override fun onBindViewHolder(holder: holder, position: Int) {
         val currentItem = UserCekbox[position]
-        var text : String
-        val status = if(currentItem.status == true){
-            text = "Sudah Diselesaikan"
-        } else {
-            text = "Belum Diselesaikan"
-        }
-
-
-
         var tanggal = currentItem.tanggal
         var RBulan = currentItem.bulan
         var bulan = RBulan?.toInt()
@@ -65,6 +57,14 @@ class UsrDetailTugasAdapter(private val UserCekbox : ArrayList<DetailInfo>): Rec
             BulanHuruf = "November"
         }else if(bulan == 12){
             BulanHuruf = "Desember"
+        }
+        var text : String
+        val status = if(currentItem.status == true){
+            text = "Selesai"
+            holder.status.setTextColor(Color.parseColor("#297a06"))
+        } else {
+            text = "Belum Selesai"
+            holder.status.setTextColor(Color.parseColor("#cc0000"))
         }
         holder.deadline.text = "$tanggal $BulanHuruf $tahun"
         holder.status.text = text

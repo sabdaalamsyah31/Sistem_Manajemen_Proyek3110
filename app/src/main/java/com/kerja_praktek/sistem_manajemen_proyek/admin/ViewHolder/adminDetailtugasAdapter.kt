@@ -1,5 +1,6 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,13 +80,16 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
 
         var text :String
         val statusbaru = if (currentItem.status == true){
-            text = "Sudah DiSelesaikan"
+            text = "Selesai"
+            holder.status.setTextColor(Color.parseColor("#297a06"))
         }else{
-            text = "Belum DiSelesaikan"
+            text = "Belum Selesai"
+            holder.status.setTextColor(Color.parseColor("#cc0000"))
         }
         holder.cekbox.text = currentItem.cekbox
         holder.id.text = currentItem.id.toString()
         holder.status.text = text
+
         holder.deadline.text = "$tanggal $BulanHuruf $tahun"
 //        holder.itemView.setOnClickListener {
 //
@@ -105,6 +109,7 @@ class adminDetailtugasAdapter(private val CekboxList : ArrayList<DetailInfo>): R
         var id: TextView = item.findViewById(R.id.id)
         var status : TextView = item.findViewById(R.id.itemDetailStatus)
         var deadline : TextView = item.findViewById(R.id.DL_cekbox)
+
 
 
         val btnedit: ImageButton = item.findViewById(R.id.btnEditDetail)

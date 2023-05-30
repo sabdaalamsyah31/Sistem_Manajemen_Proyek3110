@@ -43,9 +43,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24dp"
-                    android:text="Status :"
+                    android:text="Status : "
                     android:textColor="@color/black"
-                    android:textSize="8sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tv_user_statustugas"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="True or False Dummy"
                     android:textColor="@color/black"
-                    android:textSize="8sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/usr_id"

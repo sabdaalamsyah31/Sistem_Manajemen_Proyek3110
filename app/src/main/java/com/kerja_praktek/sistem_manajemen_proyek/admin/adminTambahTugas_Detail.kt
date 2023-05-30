@@ -16,11 +16,18 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
 import com.kerja_praktek.sistem_manajemen_proyek.Model.UsersInfo
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.NotificationData
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.PushNotification
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.RetrofitInstance
 import com.kerja_praktek.sistem_manajemen_proyek.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class adminTambahTugas_Detail : BaseActivity() {
@@ -29,6 +36,7 @@ class adminTambahTugas_Detail : BaseActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var databaseID : DatabaseReference
     private lateinit var nmProyek: TextView
+    private val TAG = "SendNotificationActivity"
 
 //    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
 //    @SuppressLint("SuspiciousIndentation")
@@ -173,6 +181,10 @@ class adminTambahTugas_Detail : BaseActivity() {
                 .setTitle("Peringatan!")
                 .setCancelable(false)
                 .setPositiveButton("Ya"){dialog,id->
+                    SendNotifP1()
+                    SendNotifP2()
+                    SendNotifP3()
+                    SendNotifP4()
                     val intent = Intent(this@adminTambahTugas_Detail,adminBeranda::class.java)
                     startActivity(intent)
                     finish()
@@ -188,8 +200,150 @@ class adminTambahTugas_Detail : BaseActivity() {
 
 
     }
+    private fun SendNotifP1() {
 
-    private fun NamaUser() {
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+        val ProgrammerName = intent.getStringExtra("Programmer1")
+
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child(ProgrammerName.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = "Title Coba"
+        val message:String = "Message Coba"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun SendNotifP2() {
+
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+        val ProgrammerName = intent.getStringExtra("Programmer2")
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child(ProgrammerName.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = "Title Coba"
+        val message:String = "Message Coba"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun SendNotifP3() {
+
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+        val ProgrammerName = intent.getStringExtra("Programmer3")
+
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child(ProgrammerName.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = "Title Coba"
+        val message:String = "Message Coba"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun SendNotifP4() {
+
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+        val ProgrammerName = intent.getStringExtra("Programmer4")
+
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child(ProgrammerName.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = "Title Coba"
+        val message:String = "Message Coba"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if (response.isSuccessful){
+                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+            }else{
+                Log.e(TAG, response.errorBody().toString())
+            }
+
+        }catch (e:Exception) {
+            Log.e(TAG,e.toString())
+        }
 
     }
 }

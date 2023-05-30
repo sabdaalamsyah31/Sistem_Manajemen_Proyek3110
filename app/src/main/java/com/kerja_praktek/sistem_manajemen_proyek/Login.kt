@@ -160,7 +160,7 @@ class Login : BaseActivity() {
 
                                     // Get new FCM registration Usertoken
                                     token = task.result
-                                    database.child("token").child(Resultusername).setValue(token).addOnCompleteListener{ task->
+                                    database.child("token").child(Resultnama).setValue(token).addOnCompleteListener{ task->
                                         if(!task.isSuccessful){
 
                                         }else{
