@@ -23,16 +23,23 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.Model.UsersInfo
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.PushNotification
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.RetrofitInstance
 import com.kerja_praktek.sistem_manajemen_proyek.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 import java.util.ArrayList as ArrayList1
 
 class adminTambahkanTugas : BaseActivity() {
     private lateinit var database: DatabaseReference
+    private val TAG = "SendNotificationActivity"
 
     var namaMananger:String = ""
     var anggota1:String = ""
@@ -385,6 +392,20 @@ class adminTambahkanTugas : BaseActivity() {
             "Ghufron","Bayu Grafit","Hermanto","MagangSatu",
             "MagangDua","MagangTiga","Nova Ariyanto","Panji Cahyono",
             "Tomi Kurniawan")
+
+    }
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if (response.isSuccessful){
+                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+            }else{
+                Log.e(TAG, response.errorBody().toString())
+            }
+
+        }catch (e:Exception) {
+            Log.e(TAG,e.toString())
+        }
 
     }
 }

@@ -71,12 +71,12 @@ class UserBeranda : BaseActivity() {
         }
     }
 
-    private fun sendNotification(usertoken:String,title:String,message:String) {
-        var notificationData =
-            NotificationData(title, message)
-        var sender : PushNotification = PushNotification(notificationData,usertoken)
-        notificationApi
-    }
+//    private fun sendNotification(usertoken:String,title:String,message:String) {
+//        var notificationData =
+//            NotificationData(title, message)
+//        var sender : PushNotification = PushNotification(notificationData,usertoken)
+//        notificationApi
+//    }
 
     private fun toLogOut() {
         startActivity(Intent(this, Login::class.java))

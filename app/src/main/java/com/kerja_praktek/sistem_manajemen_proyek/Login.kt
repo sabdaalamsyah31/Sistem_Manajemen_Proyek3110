@@ -53,11 +53,11 @@ class Login : BaseActivity() {
             FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
 
                 if (!task.isSuccessful) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    Log.w(TAG, "Fetching FCM registration Usertoken failed", task.exception)
                     return@OnCompleteListener
                 }
 
-                // Get new FCM registration token
+                // Get new FCM registration Usertoken
                 token = task.result
 
                 // Log and toast
@@ -154,17 +154,17 @@ class Login : BaseActivity() {
                                 FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
 
                                     if (!task.isSuccessful) {
-                                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                        Log.w(TAG, "Fetching FCM registration Usertoken failed", task.exception)
                                         return@OnCompleteListener
                                     }
 
-                                    // Get new FCM registration token
+                                    // Get new FCM registration Usertoken
                                     token = task.result
                                     database.child("token").child(Resultusername).setValue(token).addOnCompleteListener{ task->
                                         if(!task.isSuccessful){
 
                                         }else{
-//                                            val msg = ("ini adalah Tokennya : $token")
+//                                            val msg = ("ini adalah Tokennya : $Usertoken")
 //                                            Log.d(TAG, msg)
 //                                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                                         }
