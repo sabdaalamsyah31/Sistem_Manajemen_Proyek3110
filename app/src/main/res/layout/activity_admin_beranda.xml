@@ -91,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3"
-        app:layout_constraintVertical_bias="0.493"
+        app:layout_constraintVertical_bias="0.71000004"
         app:maxImageSize="32dp"
         app:srcCompat="@drawable/add_24" />
 
@@ -140,6 +140,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/app_name"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_logOut"
         app:layout_constraintEnd_toEndOf="@+id/btn_logOut"
         app:srcCompat="@android:drawable/ic_dialog_info" />

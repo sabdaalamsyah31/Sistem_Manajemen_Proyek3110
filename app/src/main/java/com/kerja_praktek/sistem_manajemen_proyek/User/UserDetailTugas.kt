@@ -122,6 +122,7 @@ class UserDetailTugas : BaseActivity() {
 
     private fun userSetupadapter(){
         val namaproyek = intent.getStringExtra("namaProyek")
+        val manager = intent.getStringExtra("managerProyek")
         val adapter = UsrDetailTugasAdapter(Userlistdataproyek)
         rvProyek.adapter = adapter
 
@@ -129,6 +130,7 @@ class UserDetailTugas : BaseActivity() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@UserDetailTugas, UserDetailStatus::class.java)
                 intent.putExtra("nmProyek",namaproyek)
+                intent.putExtra("managerProyek",manager)
                 intent.putExtra("tanggal",Userlistdataproyek[position].tanggal)
                 intent.putExtra("bulan",Userlistdataproyek[position].bulan)
                 intent.putExtra("tahun",Userlistdataproyek[position].tahun)

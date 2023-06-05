@@ -27,6 +27,7 @@ import com.google.gson.Gson
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.Model.UsersInfo
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.NotificationData
 import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.PushNotification
 import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.RetrofitInstance
 import com.kerja_praktek.sistem_manajemen_proyek.R
@@ -41,13 +42,14 @@ class adminTambahkanTugas : BaseActivity() {
     private lateinit var database: DatabaseReference
     private val TAG = "SendNotificationActivity"
 
+
     var namaMananger:String = ""
     var anggota1:String = ""
     var anggota2:String = ""
     var anggota3:String = ""
     var anggota4:String = ""
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_tambahkan_tugas)
@@ -80,7 +82,7 @@ class adminTambahkanTugas : BaseActivity() {
 //        forSpinner()
 
 
-        database = Firebase.database.reference
+    database = Firebase.database.reference
 
 //        catetan!! pengerjaan belum selesai error pada bagian ListUser harus menggunakan ArrayOf dan bukan ArrayList
 //        tetapi data yang di terima dari firebase adalah ArrayList
@@ -131,6 +133,7 @@ class adminTambahkanTugas : BaseActivity() {
 
 
         btnSelanjutnya.setOnClickListener{
+
             val NamaProyek = nmProyek.text.toString()
             val Manager = namaMananger
 //            val Deadline = textDeadline.text.toString()
@@ -172,6 +175,7 @@ class adminTambahkanTugas : BaseActivity() {
 
                 val Proyek = ProyekInfo(NamaProyek,Tanggal,Bulan,Tahun,Manager,Programmer_1,Programmer_2,Programmer_3,Programmer_4)
                 val Proyekname = NamaProyek
+                database = Firebase.database.reference
                 database.child("Proyek")
                     .child(Proyekname)
                     .setValue(Proyek)
@@ -180,6 +184,7 @@ class adminTambahkanTugas : BaseActivity() {
                             Toast.makeText(this@adminTambahkanTugas,"Selanjutnya Tambahkan Detail", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@adminTambahkanTugas,adminTambahTugas_Detail::class.java)
                             intent.putExtra("namaProyek",NamaProyek)
+                            intent.putExtra("Manager",Manager)
                             intent.putExtra("Programmer1",Programmer_1)
                             intent.putExtra("Programmer2",Programmer_2)
                             intent.putExtra("Programmer3",Programmer_3)
@@ -388,18 +393,11 @@ class adminTambahkanTugas : BaseActivity() {
 
 
 //        val user = arrayOf(ListUser)
-        val NamaProgrammer = arrayOf("Programmer",
-            "Abdurahmman","Adin Comara","Aisha Stevani Alfairuzy","Sabda Alamsyah",
-            "Ghufron","Bayu Grafit","Hermanto","MagangSatu",
-            "MagangDua","MagangTiga","Nova Ariyanto","Panji Cahyono",
-            "Tomi Kurniawan")
-        val NamaManager = arrayOf("Manager Proyek",
-            "Abdurahmman","Adin Comara","Aisha Stevani Alfairuzy","Sabda Alamsyah",
-            "Ghufron","Bayu Grafit","Hermanto","MagangSatu",
-            "MagangDua","MagangTiga","Nova Ariyanto","Panji Cahyono",
-            "Tomi Kurniawan")
 
     }
+
+
+
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val response = RetrofitInstance.api.postNotification(notification)
@@ -414,4 +412,5 @@ class adminTambahkanTugas : BaseActivity() {
         }
 
     }
+
 }

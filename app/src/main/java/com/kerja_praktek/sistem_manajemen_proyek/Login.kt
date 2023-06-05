@@ -103,6 +103,28 @@ class Login : BaseActivity() {
                                     sharedPref.put(Constant.PREF_NAMA,resultNama)
                                     sharedPref.put(Constant.PREF_IS_LOGIN,true)
                                     Toast.makeText(applicationContext,"Selamat Datang $resultUsername Sebagai $resultJabatan", Toast.LENGTH_SHORT).show()
+                                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
+
+                                        if (!task.isSuccessful) {
+                                            Log.w(TAG, "Fetching FCM registration Usertoken failed", task.exception)
+                                            return@OnCompleteListener
+                                        }
+
+                                        // Get new FCM registration Usertoken
+                                        token = task.result
+                                        database.child("token").child(resultNama).setValue(token).addOnCompleteListener{ task->
+                                            if(!task.isSuccessful){
+
+                                            }else{
+//                                            val msg = ("ini adalah Tokennya : $Usertoken")
+//                                            Log.d(TAG, msg)
+//                                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+
+                                        // Log and toast
+
+                                    })
 
                                     val GotoAdminBeranda = Intent(applicationContext,adminBeranda::class.java)
 

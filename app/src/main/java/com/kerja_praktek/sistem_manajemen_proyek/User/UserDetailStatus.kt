@@ -3,6 +3,7 @@ package com.kerja_praktek.sistem_manajemen_proyek.User
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
@@ -13,12 +14,21 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.NotificationData
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.PushNotification
+import com.kerja_praktek.sistem_manajemen_proyek.NotifPack.RetrofitInstance
 import com.kerja_praktek.sistem_manajemen_proyek.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class UserDetailStatus : AppCompatActivity() {
+class UserDetailStatus : BaseActivity() {
 
     private lateinit var  database: DatabaseReference
+    private val TAG = "SendNotificationActivity"
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,16 +119,19 @@ class UserDetailStatus : AppCompatActivity() {
         btnSelesai.setOnClickListener{
             database= Firebase.database.reference
             var status =statuscek.isChecked
-
-            val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status)
+            val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status, tanggal = tanggal, bulan = RBulan, tahun = tahun)
             database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
                 .setValue(detailinfo)
                 .addOnCompleteListener{ task->
                     if (task.isSuccessful){
-                        Toast.makeText(this@UserDetailStatus,"NotificationData Berhasil Diinput    ", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@UserDetailStatus,"Data Berhasil Diinput    ", Toast.LENGTH_LONG).show()
+                        if (status == true){
+                            sendNotifTrueadmin()
+                            sendNotifmanagerProyek()
+                        }else {}
                         finish()
                     }else{
-                        Toast.makeText(this@UserDetailStatus,"NotificationData Gagal Diinput", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@UserDetailStatus,"Data Gagal Diinput", Toast.LENGTH_LONG).show()
                     }
                 }
 
@@ -127,6 +140,93 @@ class UserDetailStatus : AppCompatActivity() {
 
 
 
+
+    }
+
+    private fun sendNotifTrueadmin() {
+        var namaproyek = intent.getStringExtra("nmProyek")
+//        val NamaProyek = intent.getStringExtra("namaProyek")
+
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+//        val ProgrammerName = intent.getStringExtra("Manager")\
+        var cekbox  = intent.getStringExtra("cekbox")
+
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child("Administrator")
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = namaproyek.toString()
+        val message:String = "Tugas $cekbox telah diselesaikan programmer"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun sendNotifmanagerProyek() {
+        var namaproyek = intent.getStringExtra("nmProyek")
+        var cekbox  = intent.getStringExtra("cekbox")
+        val manager = intent.getStringExtra("managerProyek")
+
+//        val title_notif = findViewById<TextView>(R.id.title_notif)
+//        val message_notif = findViewById<TextView>(R.id.message_notif)
+
+
+        var token = ""
+        database = Firebase.database.reference
+        database.child("token").child(manager.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        val title:String = namaproyek.toString()
+        val message:String = "Tugas $cekbox telah diselesaikan programmer"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if (response.isSuccessful){
+                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+            }else{
+                Log.e(TAG, response.errorBody().toString())
+            }
+
+        }catch (e:Exception) {
+            Log.e(TAG,e.toString())
+        }
 
     }
 }

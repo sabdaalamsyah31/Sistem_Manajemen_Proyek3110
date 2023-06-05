@@ -18,12 +18,12 @@ class UsrDetailTugasAdapter(private val UserCekbox : ArrayList<DetailInfo>): Rec
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(clickListener: UsrDetailTugasAdapter.onItemClickListener) {
+    fun setOnItemClickListener(clickListener: onItemClickListener) {
         mListener = clickListener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): holder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.item_user_detail_tugas, parent, false)
-        return holder(item)
+        return holder(item,mListener)
     }
 
     override fun onBindViewHolder(holder: holder, position: Int) {
@@ -76,11 +76,17 @@ class UsrDetailTugasAdapter(private val UserCekbox : ArrayList<DetailInfo>): Rec
         return UserCekbox.size
     }
 
-    class holder (item:View):RecyclerView.ViewHolder(item){
+    class holder (item:View, clickListener: onItemClickListener):RecyclerView.ViewHolder(item){
         var status : TextView = item.findViewById(R.id.tv_user_statustugas)
         var nmTugas : TextView = item.findViewById(R.id.tv_User_tugas)
         var id : TextView = item.findViewById(R.id.usr_id)
         var deadline : TextView = item.findViewById(R.id.deadlineDuser)
+
+        init {
+            item.setOnClickListener {
+                clickListener.onItemClick(adapterPosition)
+            }
+        }
 
     }
 }

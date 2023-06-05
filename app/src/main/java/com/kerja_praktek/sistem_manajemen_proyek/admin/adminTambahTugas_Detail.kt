@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Model.DetailInfo
@@ -29,9 +30,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import java.util.Calendar
-
+//const val TOPIC = "/topics/myTopic"
 class adminTambahTugas_Detail : BaseActivity() {
 
+    var token1 = ""
+    var token2 = ""
+    var token3 = ""
+    var token4 = ""
 
     private lateinit var database: DatabaseReference
     private lateinit var databaseID : DatabaseReference
@@ -40,7 +45,7 @@ class adminTambahTugas_Detail : BaseActivity() {
 
 //    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
 //    @SuppressLint("SuspiciousIndentation")
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_tambah_tugas_detail)
@@ -62,32 +67,9 @@ class adminTambahTugas_Detail : BaseActivity() {
         nmProyek = findViewById(R.id.nmProyek)
 //        ListUser = arrayListOf<UsersInfo>()
         nmProyek.text = intent.getStringExtra("namaProyek")
-
-
-
-
-
-//        val nmproyekdetail = nmProyek.toString()
-//        var ID:Int = 0
-//        databaseID = FirebaseDatabase.getInstance().getReference("DetailProyek").child(nmproyekdetail)
-//        database.addValueEventListener(object : ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()){
-//                    ID = snapshot.childrenCount.toInt()
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
-
-
-
-
-
-
+    val BTNCOBA = findViewById<Button>(R.id.sendnotifcoba)
+//    txtProgrammer.setText(intent.getStringExtra("Programmer1").toString())
+    FirebaseMessaging.getInstance().subscribeToTopic(com.kerja_praktek.sistem_manajemen_proyek.TOPIC)
 
     database = Firebase.database.reference
 
@@ -132,6 +114,13 @@ class adminTambahTugas_Detail : BaseActivity() {
         }
 
         var autoincrement = 0
+    BTNCOBA.setOnClickListener {
+        SendNotifP1()
+        SendNotifP2()
+        SendNotifP3()
+        SendNotifP4()
+        SendNotifM()
+    }
 
         btnTambahkan.setOnClickListener{
             database = Firebase.database.reference
@@ -160,13 +149,13 @@ class adminTambahTugas_Detail : BaseActivity() {
                     .setValue(detail)
                     .addOnCompleteListener{task->
                         if (task.isSuccessful){
-                            Toast.makeText(this@adminTambahTugas_Detail,"NotificationData Berhasil Ditambahkan",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminTambahTugas_Detail,"Data Berhasil Ditambahkan",Toast.LENGTH_LONG).show()
                             edtDetail.setText("")
                             tanggal.isEmpty()
                             bulan.isEmpty()
                             tahun.isEmpty()
                         }else{
-                            Toast.makeText(this@adminTambahTugas_Detail,"NotificationData Gagal Ditambahkan",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@adminTambahTugas_Detail,"Data Gagal Ditambahkan",Toast.LENGTH_LONG).show()
                         }
                     }
             }
@@ -181,11 +170,13 @@ class adminTambahTugas_Detail : BaseActivity() {
                 .setTitle("Peringatan!")
                 .setCancelable(false)
                 .setPositiveButton("Ya"){dialog,id->
+
+                    val intent = Intent(this@adminTambahTugas_Detail,adminBeranda::class.java)
+                    SendNotifM()
                     SendNotifP1()
                     SendNotifP2()
                     SendNotifP3()
                     SendNotifP4()
-                    val intent = Intent(this@adminTambahTugas_Detail,adminBeranda::class.java)
                     startActivity(intent)
                     finish()
                 }
@@ -200,22 +191,20 @@ class adminTambahTugas_Detail : BaseActivity() {
 
 
     }
-    private fun SendNotifP1() {
 
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-        val ProgrammerName = intent.getStringExtra("Programmer1")
+    private fun SendNotifM() {
+        val NamaProyek = intent.getStringExtra("namaProyek")
+        val Manager = intent.getStringExtra("Manager").toString()
 
         var token = ""
         database = Firebase.database.reference
-        database.child("token").child(ProgrammerName.toString())
+        database.child("token").child(Manager.toString())
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
                         token = snapshot.getValue(String::class.java).toString()
-//                        txtToken.text = token
                     }else{
-//                        txtToken.text = "Token not found"
+                        Log.e(TAG, "TOKEN TIDAK ADA!!!")
                     }
                 }
 
@@ -224,8 +213,37 @@ class adminTambahTugas_Detail : BaseActivity() {
                 }
 
             })
-        val title:String = "Title Coba"
-        val message:String = "Message Coba"
+        val title:String = "Project Baru"
+        val message:String = "Anda menjadi Manager project $NamaProyek"
+        PushNotification(
+            NotificationData(title, message),
+            to = token
+        ).also{
+            sendNotification(it)
+        }
+    }
+    private fun SendNotifP1() {
+        val NamaProyek = intent.getStringExtra("namaProyek")
+        val ProgrammerName1 = intent.getStringExtra("Programmer1").toString()
+        database = Firebase.database.reference
+        database.child("token").child(ProgrammerName1)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token1 = snapshot.getValue(String::class.java).toString()
+                    }else{
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        var token = token1
+        val title:String = "Project Baru"
+        Log.d(TAG, "token $token")
+        val message:String = "Anda menjadi programmer project $NamaProyek"
         PushNotification(
             NotificationData(title, message),
             to = token
@@ -234,20 +252,18 @@ class adminTambahTugas_Detail : BaseActivity() {
         }
     }
     private fun SendNotifP2() {
+        val NamaProyek = intent.getStringExtra("namaProyek")
+        val ProgrammerName2 = intent.getStringExtra("Programmer2").toString()
 
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-        val ProgrammerName = intent.getStringExtra("Programmer2")
-        var token = ""
         database = Firebase.database.reference
-        database.child("token").child(ProgrammerName.toString())
+        database.child("token").child(ProgrammerName2)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
-                        token = snapshot.getValue(String::class.java).toString()
+                        token2 = snapshot.getValue(String::class.java).toString()
 //                        txtToken.text = token
                     }else{
-//                        txtToken.text = "Token not found"
+                        Log.e(TAG, "TOKEN TIDAK ADA!!!")
                     }
                 }
 
@@ -256,8 +272,10 @@ class adminTambahTugas_Detail : BaseActivity() {
                 }
 
             })
-        val title:String = "Title Coba"
-        val message:String = "Message Coba"
+        var token = token2
+        val title:String = "Project Baru"
+        Log.d(TAG, "token $token")
+        val message:String = "Anda menjadi programmer project $NamaProyek"
         PushNotification(
             NotificationData(title, message),
             to = token
@@ -266,21 +284,19 @@ class adminTambahTugas_Detail : BaseActivity() {
         }
     }
     private fun SendNotifP3() {
+        val NamaProyek = intent.getStringExtra("namaProyek")
+        val ProgrammerName3 = intent.getStringExtra("Programmer3").toString()
 
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-        val ProgrammerName = intent.getStringExtra("Programmer3")
 
-        var token = ""
         database = Firebase.database.reference
-        database.child("token").child(ProgrammerName.toString())
+        database.child("token").child(ProgrammerName3)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
-                        token = snapshot.getValue(String::class.java).toString()
+                        token3 = snapshot.getValue(String::class.java).toString()
 //                        txtToken.text = token
                     }else{
-//                        txtToken.text = "Token not found"
+                  Log.e(TAG, "TOKEN TIDAK ADA!!!")
                     }
                 }
 
@@ -289,8 +305,11 @@ class adminTambahTugas_Detail : BaseActivity() {
                 }
 
             })
-        val title:String = "Title Coba"
-        val message:String = "Message Coba"
+        val title:String = "Project Baru"
+        var token = token3
+
+        Log.d(TAG, "token $token")
+        val message:String = "Anda menjadi programmer project $NamaProyek"
         PushNotification(
             NotificationData(title, message),
             to = token
@@ -299,31 +318,31 @@ class adminTambahTugas_Detail : BaseActivity() {
         }
     }
     private fun SendNotifP4() {
+        val NamaProyek = intent.getStringExtra("namaProyek")
 
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-        val ProgrammerName = intent.getStringExtra("Programmer4")
+        val ProgrammerName4 = intent.getStringExtra("Programmer4").toString()
 
-        var token = ""
+
         database = Firebase.database.reference
-        database.child("token").child(ProgrammerName.toString())
+        database.child("token").child(ProgrammerName4)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
-                        token = snapshot.getValue(String::class.java).toString()
-//                        txtToken.text = token
+                        token4 = snapshot.getValue(String::class.java).toString()
                     }else{
-//                        txtToken.text = "Token not found"
+                        Log.e(TAG, "TOKEN TIDAK ADA!!!")
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
-
             })
-        val title:String = "Title Coba"
-        val message:String = "Message Coba"
+        val title:String = "Project Baru"
+        var token = ""
+
+        Log.d(TAG, "token $token")
+        Toast.makeText(this@adminTambahTugas_Detail, "token :$token", Toast.LENGTH_SHORT).show()
+        val message = "Anda menjadi programmer project $NamaProyek"
         PushNotification(
             NotificationData(title, message),
             to = token
@@ -331,6 +350,7 @@ class adminTambahTugas_Detail : BaseActivity() {
             sendNotification(it)
         }
     }
+
 
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {

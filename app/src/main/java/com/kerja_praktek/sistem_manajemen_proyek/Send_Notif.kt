@@ -1,5 +1,6 @@
 package com.kerja_praktek.sistem_manajemen_proyek
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -32,6 +33,7 @@ class Send_Notif : AppCompatActivity() {
     var token = ""
 //    private lateinit var notificationApi: NotificationAPI
 //    private lateinit var database: DatabaseReference
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_notif)
@@ -48,28 +50,28 @@ class Send_Notif : AppCompatActivity() {
     var txtToken = findViewById<TextView>(R.id.txt_token)
 
     database = Firebase.database.reference
-    database.child("token").child("Aisha661")
-        .addValueEventListener(object : ValueEventListener{
-        override fun onDataChange(snapshot: DataSnapshot) {
-            if (snapshot.exists()){
-                token = snapshot.getValue(String::class.java).toString()
-                txtToken.text = token
-            }else{
-                txtToken.text = "Token not found"
-            }
-        }
-
-        override fun onCancelled(error: DatabaseError) {
-            TODO("Not yet implemented")
-        }
-
-    })
+//    database.child("token").child("Sabda Alamsyah")
+//        .addValueEventListener(object : ValueEventListener{
+//        override fun onDataChange(snapshot: DataSnapshot) {
+//            if (snapshot.exists()){
+//                token = snapshot.getValue(String::class.java).toString()
+//                txtToken.text = token
+//            }else{
+//                txtToken.text = "Token not found"
+//            }
+//        }
+//
+//        override fun onCancelled(error: DatabaseError) {
+//            TODO("Not yet implemented")
+//        }
+//
+//    })
 
         send.setOnClickListener {
             SendNotifP1()
-            SendNotifP2()
-            SendNotifP3()
-            SendNotifP4()
+//            SendNotifP2()
+//            SendNotifP3()
+//            SendNotifP4()
 
 
 
@@ -77,15 +79,34 @@ class Send_Notif : AppCompatActivity() {
     }
 
     private fun SendNotifP1() {
+//        var token = ""
+        var txtToken = findViewById<TextView>(R.id.txt_token)
+        database.child("token").child("sabda alamsyah")
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        token = snapshot.getValue(String::class.java).toString()
+                        txtToken.text = token
+                    }else{
+                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
 
         val title_notif = findViewById<TextView>(R.id.title_notif)
         val message_notif = findViewById<TextView>(R.id.message_notif)
         val title:String = "Title Coba"
-        val token2 = "fv8U3bUBQzCueMdNQ_cR_z:APA91bHn2U70SOfqBkyw3Q_ob-xRzk5k-vrCDcK3oi-hkQ-ZJhkbBY883Zvbcty_jtWQ9qVY0biAg-58o7EB4W6bgc996zfKb9pdGYNjXbetqDMvt9pCAvRECuFOfZzbtyGEc2oozOPO"
+        val token2 = token
         val message:String = "Message Coba"
         PushNotification(
             NotificationData(title, message),
-            to = token
+            to = token2
         ).also{
             sendNotification(it)
         }
