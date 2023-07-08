@@ -44,7 +44,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="36dp"
             android:ems="10"
             android:fontFamily="@font/metrophobic"
             android:text="Dummy"
@@ -69,7 +69,8 @@
         android:id="@+id/CVusr"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/transparant"
+        android:background="@drawable/iphone_13_pro_max___4"
+        android:backgroundTint="@color/CardviewColor"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
 

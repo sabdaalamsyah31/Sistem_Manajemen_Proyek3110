@@ -100,12 +100,13 @@
 
         <TextView
             android:id="@+id/namaProyek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/metrophobic"
             android:text="Detail Sebelumnya"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />

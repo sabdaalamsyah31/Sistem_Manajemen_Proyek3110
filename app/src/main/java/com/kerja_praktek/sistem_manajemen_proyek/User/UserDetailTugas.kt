@@ -4,10 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -22,6 +26,14 @@ class UserDetailTugas : BaseActivity() {
 
     private lateinit var database : DatabaseReference // Database
 
+//    Animation source
+    private val rotateOpen : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim)}
+    private val rotateClose : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim)}
+    private val fromBottom : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim)}
+    private val toBottom : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim)}
+    private val toLeft : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.to_left_anim)}
+    private val toRight : Animation by lazy{ AnimationUtils.loadAnimation(this,R.anim.to_right_anim)}
+
     private lateinit var tvnmProyek: TextView // nama proyek
     private lateinit var tvDeadline : TextView // Deadline Tugas
     private lateinit var tvManagerProyek : TextView // Manager Proyek
@@ -32,12 +44,15 @@ class UserDetailTugas : BaseActivity() {
     private lateinit var anggota4 : TextView // Programmer 4
     private lateinit var rvProyek: RecyclerView // recyclerview
     private lateinit var Userlistdataproyek : ArrayList<DetailInfo>
+
+    private var clicked = false
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail_tugas)
 
         var namaProyek = ""
+        val proyekID = intent.getStringExtra("proyekID")
 
         val nama = intent.getStringExtra("namaProyek")
         val manager = intent.getStringExtra("managerProyek")
@@ -58,6 +73,8 @@ class UserDetailTugas : BaseActivity() {
         anggota2 = findViewById(R.id.user_programmer2)
         anggota3 = findViewById(R.id.user_programmer3)
         anggota4 = findViewById(R.id.user_programmer4)
+        var btnNote = findViewById<FloatingActionButton>(R.id.user_note)
+        var ac = findViewById<FloatingActionButton>(R.id.User_ac)
 
         val bulanInt = bulan?.toInt()
         var bulanHuruf = ""
@@ -111,9 +128,26 @@ class UserDetailTugas : BaseActivity() {
         namaProyek = intent.getStringExtra("namaProyek").toString()
 
 
+        btnNote.setOnClickListener {
+            val gotoNote = Intent(this@UserDetailTugas,UserNoteBeranda::class.java)
+            gotoNote.putExtra("proyekID",proyekID)
+            gotoNote.putExtra("nmProyek",nama)
+            gotoNote.putExtra("Programmer_1",programmer1)
+            gotoNote.putExtra("Programmer_2",programmer2)
+            gotoNote.putExtra("Programmer_3",programmer3)
+            gotoNote.putExtra("Programmer_4",programmer4)
+            startActivity(gotoNote)
+        }
+        ac.setOnClickListener {
+            AcButton()
+        }
+
+
 
 
     }
+
+
 
     override fun onResume() {
         super.onResume()
@@ -121,14 +155,17 @@ class UserDetailTugas : BaseActivity() {
     }
 
     private fun userSetupadapter(){
+        val proyekID = intent.getStringExtra("proyekID")
         val namaproyek = intent.getStringExtra("namaProyek")
         val manager = intent.getStringExtra("managerProyek")
+        val Userfullname = intent.getStringExtra("UserFullname")
         val adapter = UsrDetailTugasAdapter(Userlistdataproyek)
         rvProyek.adapter = adapter
 
         adapter.setOnItemClickListener(object : UsrDetailTugasAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@UserDetailTugas, UserDetailStatus::class.java)
+                intent.putExtra("proyekID",proyekID)
                 intent.putExtra("nmProyek",namaproyek)
                 intent.putExtra("managerProyek",manager)
                 intent.putExtra("tanggal",Userlistdataproyek[position].tanggal)
@@ -137,6 +174,8 @@ class UserDetailTugas : BaseActivity() {
                 intent.putExtra("cekbox",Userlistdataproyek[position].cekbox)
                 intent.putExtra("status",Userlistdataproyek[position].status)
                 intent.putExtra("id",Userlistdataproyek[position].id)
+                intent.putExtra("UserFullName",Userfullname.toString())
+
                 startActivity(intent)
             }
 
@@ -145,8 +184,8 @@ class UserDetailTugas : BaseActivity() {
 
     fun usergetDetailProyek(){
         database =  Firebase.database.reference
-        val namaProyek = intent.getStringExtra("namaProyek").toString()
-        database.child("DetailProyek").child(namaProyek).addValueEventListener(object : ValueEventListener{
+        val proyekID = intent.getStringExtra("proyekID").toString()
+        database.child("DetailProyek").child(proyekID).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 Userlistdataproyek.clear()
                 if(snapshot.exists()){
@@ -181,5 +220,57 @@ class UserDetailTugas : BaseActivity() {
             Log.d(TAG,"percentage:${result.toInt()}")
             tvPersen.text = result.toInt().toString()
         }
+    }
+
+
+
+    private fun AcButton() {
+        setvisibility(clicked)
+        setanimation(clicked)
+        clicked = !clicked
+        setClikcable(clicked)
+    }
+    private fun setvisibility(clicked: Boolean){
+        var noteT = findViewById<TextView>(R.id.Note_txt)
+        var btnNote = findViewById<FloatingActionButton>(R.id.user_note)
+        var ac = findViewById<FloatingActionButton>(R.id.User_ac)
+
+        if(!clicked){
+            noteT.visibility = View.VISIBLE
+            btnNote.visibility = View.VISIBLE
+        }else{
+            noteT.visibility = View.INVISIBLE
+            btnNote.visibility = View.INVISIBLE
+
+        }
+
+    }
+
+    private fun setanimation(clicked: Boolean){
+        var noteT = findViewById<TextView>(R.id.Note_txt)
+        var btnNote = findViewById<FloatingActionButton>(R.id.user_note)
+        var ac = findViewById<FloatingActionButton>(R.id.User_ac)
+
+        if (!clicked) {
+            noteT.startAnimation(toLeft)
+            btnNote.startAnimation(fromBottom)
+            ac.startAnimation(rotateOpen)
+        }else{
+            noteT.startAnimation(toBottom)
+            btnNote.startAnimation(toBottom)
+            ac.startAnimation(rotateClose)
+        }
+
+    }
+
+    private fun setClikcable(clicked: Boolean){
+        var btnNote = findViewById<FloatingActionButton>(R.id.user_note)
+        var ac = findViewById<FloatingActionButton>(R.id.User_ac)
+        if(!clicked){
+            btnNote.isClickable = false
+        } else{
+            btnNote.isClickable = true
+        }
+
     }
 }

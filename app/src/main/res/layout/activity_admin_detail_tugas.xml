@@ -18,7 +18,7 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="230dp"
 
             android:background="#FFFFFF"
             android:backgroundTint="@color/merah_terbaru"
@@ -32,19 +32,21 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_gravity="top"
-                android:backgroundTint="#761C02"
+                android:backgroundTint="@color/CardviewColor"
                 android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tvNamaProyek"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
+                    android:paddingTop="4dp"
                     android:text="Nama Tugas Proyek"
+                    android:textAlignment="center"
                     android:textColor="@color/abu2"
-                    android:textSize="18dp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
@@ -151,7 +153,8 @@
 
         android:layout_height="match_parent"
         android:visibility="visible"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -191,25 +194,23 @@
         android:layout_gravity="bottom"
         app:layout_anchorGravity="bottom">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/linearLayout13"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@drawable/iphone_13_pro_max___4"
-            android:backgroundTint="#761C02"
+            android:backgroundTint="@color/CardviewColor"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/metrophobic"
                 android:text="Progress Project"
                 android:textColor="@color/abu2"
@@ -219,7 +220,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
 
@@ -243,7 +245,20 @@
                     android:textSize="34sp"
                     android:textStyle="bold" />
             </LinearLayout>
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/printpdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:visibility="invisible"
+            app:backgroundTint="#AF5034"
+            app:layout_constraintBottom_toTopOf="@+id/tambahdetail"
+            app:layout_constraintEnd_toEndOf="@+id/tambahdetail"
+            app:srcCompat="@drawable/baseline_picture_as_pdf_24"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/tambahdetail"
@@ -255,7 +270,8 @@
             app:backgroundTint="#AF5034"
             app:layout_constraintBottom_toTopOf="@+id/btnHapus"
             app:layout_constraintEnd_toEndOf="@+id/btnHapus"
-            app:srcCompat="@drawable/baseline_add_chart_24" />
+            app:srcCompat="@drawable/baseline_add_chart_24"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnHapus"
@@ -267,7 +283,8 @@
             app:backgroundTint="#AF5034"
             app:layout_constraintBottom_toTopOf="@+id/btnEdit"
             app:layout_constraintEnd_toEndOf="@+id/btnEdit"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/ic_delete"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnEdit"
@@ -279,7 +296,8 @@
             app:backgroundTint="#AF5034"
             app:layout_constraintBottom_toTopOf="@+id/btn_fac"
             app:layout_constraintEnd_toEndOf="@+id/btn_fac"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_fac"
@@ -297,6 +315,78 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout13"
             app:layout_constraintVertical_bias="0.8"
             app:srcCompat="@drawable/add_24" />
+
+        <TextView
+            android:id="@+id/hapus_P"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="20dp"
+            android:width="80dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#A1171515"
+            android:fontFamily="@font/metrophobic"
+            android:text="Hapus Project"
+            android:textAlignment="center"
+            android:textColor="#C6C6C6"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnHapus"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/Todolist_p"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="20dp"
+            android:width="80dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#A1171515"
+            android:fontFamily="@font/metrophobic"
+            android:text="Tambahkan to-do-list"
+            android:textAlignment="center"
+            android:textColor="#C6C6C6"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/tambahdetail"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/edit_p"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="98dp"
+            android:layout_marginBottom="20dp"
+            android:width="80dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#A1171515"
+            android:fontFamily="@font/metrophobic"
+            android:text="Edit Project"
+            android:textAlignment="center"
+            android:textColor="#C6C6C6"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/pdf_p"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="98dp"
+            android:layout_marginBottom="20dp"
+            android:width="80dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#A1171515"
+            android:fontFamily="@font/metrophobic"
+            android:text="Print Project"
+            android:textAlignment="center"
+            android:textColor="#C6C6C6"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/printpdf"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

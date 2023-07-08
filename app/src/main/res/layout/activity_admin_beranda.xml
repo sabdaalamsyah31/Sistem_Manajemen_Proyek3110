@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -61,7 +60,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Proyek"
@@ -106,7 +106,8 @@
         app:backgroundTint="@color/dasar"
         app:layout_constraintBottom_toTopOf="@+id/btn_ac"
         app:layout_constraintEnd_toEndOf="@+id/btn_ac"
-        app:srcCompat="@drawable/baseline_add_chart_24" />
+        app:srcCompat="@drawable/baseline_add_chart_24"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_logOut"
@@ -119,7 +120,8 @@
         app:backgroundTint="@color/dasar"
         app:layout_constraintBottom_toTopOf="@+id/btn_Daftar"
         app:layout_constraintEnd_toEndOf="@+id/btn_Daftar"
-        app:srcCompat="@drawable/baseline_logout_24" />
+        app:srcCompat="@drawable/baseline_logout_24"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_Daftar"
@@ -131,19 +133,59 @@
         app:backgroundTint="@color/dasar"
         app:layout_constraintBottom_toTopOf="@+id/btnTambahkanProyek"
         app:layout_constraintEnd_toEndOf="@+id/btnTambahkanProyek"
-        app:srcCompat="@drawable/baseline_person_add_24" />
+        app:srcCompat="@drawable/baseline_person_add_24"
+        tools:visibility="visible" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_notif"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/out_txt"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:contentDescription="@string/app_name"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btn_logOut"
-        app:layout_constraintEnd_toEndOf="@+id/btn_logOut"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#A1171515"
+        android:fontFamily="@font/metrophobic"
+        android:text="Logout"
+        android:textAlignment="center"
+        android:textColor="#C6C6C6"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_logOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/register_txt"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#A1171515"
+        android:fontFamily="@font/metrophobic"
+        android:text="Tambahkan User"
+        android:textAlignment="center"
+        android:textColor="#C6C6C6"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_Daftar"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/plus_txt"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#A1171515"
+        android:fontFamily="@font/metrophobic"
+        android:text="Tambahkan Project"
+        android:textAlignment="center"
+        android:textColor="#C6C6C6"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btnTambahkanProyek"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,9 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,19 +24,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sistem_Manajemen_Proyek"
         tools:targetApi="31">
+        <activity
+            android:name=".User.UserNotesDetail"
+            android:exported="false" />
+        <activity
+            android:name=".User.UserInputNote"
+            android:exported="false" />
+        <activity
+            android:name=".User.UserNoteBeranda"
+            android:exported="false" />
+        <activity
+            android:name=".User.user_editProfil"
+            android:exported="false"
+            android:label="@string/title_activity_user_edit_profil"
+            android:theme="@style/Theme.Sistem_Manajemen_Proyek" />
 
-        <service android:name=".NotifPack.FirebaseService"
-            android:permission="com.google.android.c2dm.permission.SEND"
-            android:exported="true">
+        <service
+            android:name=".NotifPack.FirebaseService"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".Send_Notif"
-            android:exported="false" />
         <activity
             android:name=".Register"
             android:exported="false"
@@ -116,6 +136,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

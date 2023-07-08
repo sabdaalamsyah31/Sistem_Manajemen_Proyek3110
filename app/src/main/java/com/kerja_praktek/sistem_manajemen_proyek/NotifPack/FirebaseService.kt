@@ -12,12 +12,15 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.kerja_praktek.sistem_manajemen_proyek.Login
 import com.kerja_praktek.sistem_manajemen_proyek.R
-import com.kerja_praktek.sistem_manajemen_proyek.Send_Notif
+import com.kerja_praktek.sistem_manajemen_proyek.User.UserBeranda
+//import com.kerja_praktek.sistem_manajemen_proyek.Send_Notif
 import kotlin.random.Random
 
 
 private const val CHANNEL_ID = "my_channel"
+private const val TOPIC = "my_channel"
 
 
 class FirebaseService:FirebaseMessagingService(){
@@ -25,7 +28,7 @@ class FirebaseService:FirebaseMessagingService(){
     private lateinit var message:String;
     override fun onMessageReceived(message:RemoteMessage){
         super.onMessageReceived(message)
-       val intent = Intent(this, Send_Notif::class.java)
+       val intent = Intent(this, Login::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

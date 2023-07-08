@@ -135,27 +135,16 @@
         tools:layout_editor_absoluteX="1dp">
 
         <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/metrophobic"
-            android:text="Edit Proyek"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/txt_namaProyek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="360dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/metrophobic"
+            android:paddingTop="10dp"
             android:text="Dummy"
+            android:textAlignment="center"
             android:textColor="@color/abu2"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 

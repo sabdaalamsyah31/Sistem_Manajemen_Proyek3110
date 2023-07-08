@@ -26,6 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserDetailStatus : BaseActivity() {
+    var tokenadmin = ""
+    var tokenmanager = ""
 
     private lateinit var  database: DatabaseReference
     private val TAG = "SendNotificationActivity"
@@ -43,7 +45,7 @@ class UserDetailStatus : BaseActivity() {
 
 
 
-
+        var proyekID = intent.getStringExtra("proyekID").toString()
         var cekbox  = intent.getStringExtra("cekbox")
         var namaproyek = intent.getStringExtra("nmProyek")
         var status = intent.getStringExtra("status").toBoolean()
@@ -84,8 +86,7 @@ class UserDetailStatus : BaseActivity() {
 
         detail.text = cekbox
         database = Firebase.database.reference
-
-        database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
+        database.child("DetailProyek").child(proyekID).child(id.toString())
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val detailinfo = snapshot.getValue(DetailInfo::class.java)
@@ -99,7 +100,7 @@ class UserDetailStatus : BaseActivity() {
 
                     }else{
 
-                        Toast.makeText(this@UserDetailStatus,"NotificationData Base Kosong", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@UserDetailStatus,"Data Base Kosong", Toast.LENGTH_SHORT).show()
                     }
 
 
@@ -115,20 +116,21 @@ class UserDetailStatus : BaseActivity() {
 
 
 
+        getTokenadmin()
+        getTokenmanager()
+
 
         btnSelesai.setOnClickListener{
             database= Firebase.database.reference
             var status =statuscek.isChecked
             val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status, tanggal = tanggal, bulan = RBulan, tahun = tahun)
-            database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
+            database.child("DetailProyek").child(proyekID).child(id.toString())
                 .setValue(detailinfo)
                 .addOnCompleteListener{ task->
                     if (task.isSuccessful){
-                        Toast.makeText(this@UserDetailStatus,"Data Berhasil Diinput    ", Toast.LENGTH_LONG).show()
-                        if (status == true){
-                            sendNotifTrueadmin()
-                            sendNotifmanagerProyek()
-                        }else {}
+                        Toast.makeText(this@UserDetailStatus,"Data Berhasil Diinput", Toast.LENGTH_LONG).show()
+                        sendNotifTrueadmin()
+                        sendNotifmanagerProyek()
                         finish()
                     }else{
                         Toast.makeText(this@UserDetailStatus,"Data Gagal Diinput", Toast.LENGTH_LONG).show()
@@ -137,28 +139,16 @@ class UserDetailStatus : BaseActivity() {
 
         }
 
-
-
-
-
     }
 
-    private fun sendNotifTrueadmin() {
-        var namaproyek = intent.getStringExtra("nmProyek")
-//        val NamaProyek = intent.getStringExtra("namaProyek")
+    private fun getTokenadmin(){
 
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-//        val ProgrammerName = intent.getStringExtra("Manager")\
-        var cekbox  = intent.getStringExtra("cekbox")
-
-        var token = ""
         database = Firebase.database.reference
         database.child("token").child("Administrator")
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()){
-                        token = snapshot.getValue(String::class.java).toString()
+                        tokenadmin = snapshot.getValue(String::class.java).toString()
 //                        txtToken.text = token
                     }else{
 //                        txtToken.text = "Token not found"
@@ -170,8 +160,36 @@ class UserDetailStatus : BaseActivity() {
                 }
 
             })
+    }
+    private fun getTokenmanager(){
+        val manager = intent.getStringExtra("managerProyek")
+
+        database = Firebase.database.reference
+        database.child("token").child(manager.toString())
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        tokenmanager = snapshot.getValue(String::class.java).toString()
+//                        txtToken.text = token
+                    }else{
+//                        txtToken.text = "Token not found"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
+    private fun sendNotifTrueadmin() {
+        var namaproyek = intent.getStringExtra("nmProyek")
+        var cekbox  = intent.getStringExtra("cekbox")
         val title:String = namaproyek.toString()
-        val message:String = "Tugas $cekbox telah diselesaikan programmer"
+        val fullname = intent.getStringExtra("UserFullName").toString()
+        val message:String = "Tugas $cekbox telah diupdate $fullname"
+        val token = tokenadmin
         PushNotification(
             NotificationData(title, message),
             to = token
@@ -179,35 +197,15 @@ class UserDetailStatus : BaseActivity() {
             sendNotification(it)
         }
     }
+
+
     private fun sendNotifmanagerProyek() {
         var namaproyek = intent.getStringExtra("nmProyek")
         var cekbox  = intent.getStringExtra("cekbox")
-        val manager = intent.getStringExtra("managerProyek")
-
-//        val title_notif = findViewById<TextView>(R.id.title_notif)
-//        val message_notif = findViewById<TextView>(R.id.message_notif)
-
-
-        var token = ""
-        database = Firebase.database.reference
-        database.child("token").child(manager.toString())
-            .addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        token = snapshot.getValue(String::class.java).toString()
-//                        txtToken.text = token
-                    }else{
-//                        txtToken.text = "Token not found"
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+        var token = tokenmanager
         val title:String = namaproyek.toString()
-        val message:String = "Tugas $cekbox telah diselesaikan programmer"
+        val fullname = intent.getStringExtra("UserFullName").toString()
+        val message:String = "Tugas $cekbox telah diupdate $fullname"
         PushNotification(
             NotificationData(title, message),
             to = token

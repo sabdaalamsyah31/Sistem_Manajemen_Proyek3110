@@ -35,7 +35,7 @@ adminTambahTugas_DetailLagi : BaseActivity() {
         val btnadd = findViewById<Button>(R.id.btnAdd)
         val btndone = findViewById<Button>(R.id.btnDone)
         val edtTugas = findViewById<EditText>(R.id.adddetail)
-        val nmProyek = findViewById<TextView>(R.id.namaProyek)
+        var nmProyek = findViewById<TextView>(R.id.namaProyek)
         val autoid = findViewById<TextView>(R.id.autoId)
         var datepicker = findViewById<Button>(R.id.datePicker3)
 
@@ -47,7 +47,9 @@ adminTambahTugas_DetailLagi : BaseActivity() {
         var HurufBulan = ""
         var thn = ""
 
-        val Proyek = intent.getStringExtra("nmProyek").toString()
+//        val Proyek = intent.getStringExtra("nmProyek").toString()
+        val proyekID = intent.getStringExtra("proyekID").toString()
+        nmProyek.text = intent.getStringExtra("nmProyek").toString()
         var counter : String? = null
 
         database = Firebase.database.reference
@@ -94,7 +96,7 @@ adminTambahTugas_DetailLagi : BaseActivity() {
 
 
 
-        database.child("DetailProyek").child(Proyek).addListenerForSingleValueEvent(object : ValueEventListener{
+        database.child("DetailProyek").child(proyekID).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     for (snap in snapshot.children)
@@ -105,7 +107,10 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                         val id = toin!! + 1
                         autoid.text = id.toString()
                     }
+                }else{
+                    autoid.text = 1.toString()
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -121,7 +126,7 @@ adminTambahTugas_DetailLagi : BaseActivity() {
 
         fun getIDagain(){
             database = Firebase.database.reference
-            database.child("DetailProyek").child(Proyek)
+            database.child("DetailProyek").child(proyekID)
 //                .orderByKey().limitToLast(1)
                 .addListenerForSingleValueEvent(object:ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -134,6 +139,8 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                                 val id = toin!! + 1
                                 autoid.text = id.toString()
                             }
+                        }else{
+                            autoid.text = 1.toString()
                         }
                     }
 
@@ -146,18 +153,22 @@ adminTambahTugas_DetailLagi : BaseActivity() {
         ListDetailProyek = arrayListOf<DetailInfo>()
         getIDagain()
         btnadd.setOnClickListener {
-//            var tanggal = tgl
-//            var bulan = bln
-//            var tahun = thn
+            var tanggal = tgl
+            var bulan = bln
+            var tahun = thn
             val detail = edtTugas.text.toString()
             database = Firebase.database.reference
-            database.child("DetailProyek").child(Proyek)
+            database.child("DetailProyek").child(proyekID)
             if(detail.isEmpty()){
                 Toast.makeText(this@adminTambahTugas_DetailLagi,"Kolom Detail Kosong",Toast.LENGTH_LONG).show()
 
-            }else{
+            }else if(tanggal.isEmpty()&& bulan.isEmpty() && tahun.isEmpty())
+            {
+                Toast.makeText(this@adminTambahTugas_DetailLagi,"Deadline Kosong",Toast.LENGTH_LONG).show()
+            }else
+            {
                 var idNumber : Int? = null
-                database.child("DetailProyek").child(Proyek)
+                database.child("DetailProyek").child(proyekID)
                     .addValueEventListener(object : ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             if (snapshot.exists()){
@@ -186,18 +197,18 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                 )
 
 
-                database.child("DetailProyek").child(Proyek).child(newID)
+                database.child("DetailProyek").child(proyekID).child(newID)
                     .setValue(adddetail)
                     .addOnCompleteListener{task->
                         if (task.isSuccessful){
-                            Toast.makeText(this@adminTambahTugas_DetailLagi,"NotificationData Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahTugas_DetailLagi,"Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                             edtTugas.setText("")
                             getIDagain()
 //                            id
 //                            count++
 //                            var idnumber =
                         }else{
-                            Toast.makeText(this@adminTambahTugas_DetailLagi,"NotificationData Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahTugas_DetailLagi,"Data Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -213,7 +224,7 @@ adminTambahTugas_DetailLagi : BaseActivity() {
                     finish()
                 }
                 .setNegativeButton("Tidak"){dialog,id->
-                    Toast.makeText(applicationContext,"Silahkan Tambahkan NotificationData Lagi",Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext,"Silahkan Tambahkan Data Lagi",Toast.LENGTH_LONG).show()
                 }
             val alert = buildMessage.create()
             alert.show()

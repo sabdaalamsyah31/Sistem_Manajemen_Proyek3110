@@ -20,4 +20,6 @@
     <color name="merah_terbaru">#902C2C</color>
     <color name="Cream">#AACCAABB</color>
     <color name="Merah_Bata">#5F1919</color>
+    <color name="CardviewColor">#7B2929</color>
+    <color name="BlackTrans">#77000000</color>
 </resources>

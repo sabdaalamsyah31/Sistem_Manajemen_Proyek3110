@@ -1,22 +1,29 @@
 package com.kerja_praktek.sistem_manajemen_proyek.admin
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kerja_praktek.sistem_manajemen_proyek.Base.BaseActivity
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.Constant
 import com.kerja_praktek.sistem_manajemen_proyek.Helper.PreferencesHelper
@@ -24,7 +31,6 @@ import com.kerja_praktek.sistem_manajemen_proyek.Login
 import com.kerja_praktek.sistem_manajemen_proyek.Model.ProyekInfo
 import com.kerja_praktek.sistem_manajemen_proyek.R
 import com.kerja_praktek.sistem_manajemen_proyek.Register
-import com.kerja_praktek.sistem_manajemen_proyek.Send_Notif
 import com.kerja_praktek.sistem_manajemen_proyek.admin.ViewHolder.adminBerandaAdapter
 
 class adminBeranda : BaseActivity() {
@@ -32,6 +38,8 @@ class adminBeranda : BaseActivity() {
     private val rotateClose : Animation by lazy {AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim)}
     private val fromBottom : Animation by lazy {AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim)}
     private val toBottom : Animation by lazy {AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim)}
+    private val toLeft : Animation by lazy { AnimationUtils.loadAnimation(this,R.anim.to_left_anim)}
+    private val toRight : Animation by lazy{AnimationUtils.loadAnimation(this,R.anim.to_right_anim)}
 
     private lateinit var sharedPref : PreferencesHelper
 
@@ -39,10 +47,15 @@ class adminBeranda : BaseActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var ListProyek: ArrayList<ProyekInfo>
     private var clicked = false
+    var state = false
+    val PERMISSIONS = arrayOf(
 
-
-//    @SuppressLint("MissingInflatedId")
-    @SuppressLint("MissingInflatedId")
+//        Make Permissions
+        Manifest.permission.POST_NOTIFICATIONS,
+        Manifest.permission.INTERNET,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_beranda)
@@ -50,10 +63,8 @@ class adminBeranda : BaseActivity() {
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
         var btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
-        var btnNotif = findViewById<FloatingActionButton>(R.id.btn_notif)
         sharedPref = PreferencesHelper(this)
         val user = findViewById<TextView>(R.id.tv_username)
-//        val namauser = intent.getStringExtra("Username")
 
         val username = sharedPref.getString(Constant.PREF_NAMA)
         user.text = username.toString()
@@ -62,13 +73,11 @@ class adminBeranda : BaseActivity() {
         rv_item.layoutManager = LinearLayoutManager(this)
         ListProyek = arrayListOf<ProyekInfo>()
 
-
-
+        validate()
 
         database = FirebaseDatabase.getInstance().getReference("Proyek")
 
         getProyek()
-
 
         action.setOnClickListener {
         onAddButtonClicked()
@@ -85,15 +94,81 @@ class adminBeranda : BaseActivity() {
             val toRegister = Intent(applicationContext, Register::class.java)
             startActivity(toRegister)
         }
-        btnNotif.setOnClickListener {
-            val toSendNotif = Intent(applicationContext, Send_Notif::class.java)
-            startActivity(toSendNotif)
-        }
-
-
-
-
     }
+
+
+
+    private fun validate() {
+        if(!hasPermission(*PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS,0)
+        }else{
+
+        }
+    }
+    private fun hasPermission(vararg permissions: String): Boolean {
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M && permissions != null){
+            for(permission in permissions){
+                if(ContextCompat.checkSelfPermission(
+                        this,
+                        permission!!
+                )!= PackageManager.PERMISSION_GRANTED
+                ){
+                    return false
+                }
+            }
+
+        }
+            return true
+    }
+    private fun checkPermissionRequest(vararg permissions: String?): Boolean {
+        var status = false
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M && permissions != null){
+            for (permission in permissions){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this, permission!!)){
+                    status = true
+                }
+            }
+        }
+        return status
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode){
+            0 ->{
+                if(checkPermissionRequest(*PERMISSIONS)){
+                    showDialogPermission()
+                    
+                }
+            }
+        }
+    }
+
+    fun showDialogPermission() {
+        AlertDialog.Builder(this)
+            .setTitle("Izin Ditolak")
+            .setMessage("Login membutuhkan izin membaca keadaan ponsel, Lokasi, Penyimpanan, dan Telepon.\nPergi ke setting untuk mengaktifkan.")
+            .setCancelable(true)
+            .setOnCancelListener(DialogInterface.OnCancelListener {
+                finish()
+            })
+            .setNeutralButton(
+                "Pergi ke Setting"
+            ) { dialogInterface, i ->
+                state = true
+                startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:$packageName")
+                    )
+                )
+            }.show()
+    }
+
     private fun toLogout() {
         startActivity(Intent(this, Login::class.java))
         finish()
@@ -110,12 +185,21 @@ class adminBeranda : BaseActivity() {
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
         val btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
+        val txt1 = findViewById<TextView>(R.id.out_txt)
+        val txt2 = findViewById<TextView>(R.id.register_txt)
+        val txt3 = findViewById<TextView>(R.id.plus_txt)
 
         if(!clicked){
+            txt1.visibility = View.VISIBLE
+            txt2.visibility = View.VISIBLE
+            txt3.visibility = View.VISIBLE
             btnTambahkan.visibility = View.VISIBLE
             logOut.visibility = View.VISIBLE
             btnRegister.visibility = View.VISIBLE
         }else{
+            txt1.visibility = View.INVISIBLE
+            txt2.visibility = View.INVISIBLE
+            txt3.visibility = View.INVISIBLE
             btnTambahkan.visibility = View.INVISIBLE
             logOut.visibility = View.INVISIBLE
             btnRegister.visibility = View.INVISIBLE
@@ -126,12 +210,21 @@ class adminBeranda : BaseActivity() {
         val action = findViewById<FloatingActionButton>(R.id.btn_ac)
         val btnTambahkan = findViewById<FloatingActionButton>(R.id.btnTambahkanProyek)
         val btnRegister = findViewById<FloatingActionButton>(R.id.btn_Daftar)
+        val txt1 = findViewById<TextView>(R.id.out_txt)
+        val txt2 = findViewById<TextView>(R.id.register_txt)
+        val txt3 = findViewById<TextView>(R.id.plus_txt)
         if (!clicked) {
+            txt1.startAnimation(toLeft)
+            txt2.startAnimation(toLeft)
+            txt3.startAnimation(toLeft)
             btnTambahkan.startAnimation(fromBottom)
             logOut.startAnimation(fromBottom)
             btnRegister.startAnimation(fromBottom)
             action.startAnimation(rotateOpen)
         }else{
+            txt1.startAnimation(toBottom)
+            txt2.startAnimation(toBottom)
+            txt3.startAnimation(toBottom)
             btnTambahkan.startAnimation(toBottom)
             logOut.startAnimation(toBottom)
             btnRegister.startAnimation(toBottom)
@@ -176,7 +269,7 @@ class adminBeranda : BaseActivity() {
                     adapter.setOnItemClickListener(object : adminBerandaAdapter.onItemClickListener{
                         override fun onItemClick(position: Int) {
                             val intent = Intent(this@adminBeranda,adminDetailTugas::class.java)
-
+                            intent.putExtra("ID", ListProyek[position].id)
                             intent.putExtra("namaProyek",ListProyek[position].namaProyek)
                             intent.putExtra("tanggal",ListProyek[position].tanggal)
                             intent.putExtra("bulan",ListProyek[position].bulan)
@@ -189,7 +282,9 @@ class adminBeranda : BaseActivity() {
                             startActivity(intent)
                         }
                     })
-                }else{}
+                }else{
+
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -198,36 +293,9 @@ class adminBeranda : BaseActivity() {
 
         })
     }
-
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
-        } else {
-            // TODO: Inform user that that your app will not show notifications.
-        }
+    override fun onRestart() {
+        super.onRestart()
+        //Log.d(TAG, "onRestart: ")
+        validate()
     }
-
-
-
-    private fun askNotificationPermission() {
-        // This is only necessary for API level >= 33 (TIRAMISU)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                // FCM SDK (and your app) can post notifications.
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                // TODO: display an educational UI explaining to the user the features that will be enabled
-                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
-                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
-                //       If the user selects "No thanks," allow the user to continue without notifications.
-            } else {
-                // Directly ask for the permission
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
-    }
-
 }

@@ -64,7 +64,7 @@ class adminEditTugas : BaseActivity() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-
+        val ID = intent.getStringExtra("ID").toString()
         val nama = intent.getStringExtra("namaProyek").toString()
 //        val deadline = intent.getStringExtra("deadline").toString()
         var tanggal = intent.getStringExtra("tanggal")
@@ -181,14 +181,14 @@ class adminEditTugas : BaseActivity() {
 
             if(nama.isEmpty()||manager.isEmpty()||programmer1.isEmpty()||programmer2.isEmpty()||programmer3.isEmpty()||programmer4.isEmpty())
             {
-                Toast.makeText(this@adminEditTugas,"Kolom NotificationData Kosong",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@adminEditTugas,"Kolom Data Kosong",Toast.LENGTH_SHORT).show()
             }else if(tanggal.isEmpty()||bulan.isEmpty()||tahun.isEmpty()){
                 Toast.makeText(this@adminEditTugas,"Kolom Deadline Tugas Kosong",Toast.LENGTH_SHORT).show()
             }
 
 
             else{
-                val proyek = ProyekInfo(namaProyek = nama, tanggal = tanggal, bulan = bulan,
+                val proyek = ProyekInfo(id = ID , namaProyek = nama, tanggal = tanggal, bulan = bulan,
                     tahun = tahun, manager = manager, programmer_1 = programmer1, programmer_2 = programmer2,
                     programmer_3 = programmer3, programmer_4 = programmer4,
 //                    ListDetailProyek
@@ -196,16 +196,16 @@ class adminEditTugas : BaseActivity() {
                 val proyekname = nama
 
                 database.child("Proyek")
-                    .child(proyekname)
+                    .child(ID)
                     .setValue(proyek)
                     .addOnCompleteListener{ task ->
                         if(task.isSuccessful){
-                            Toast.makeText(this@adminEditTugas, "NotificationData Proyek Berhasil Diubah",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminEditTugas, "Data Proyek Berhasil Diubah",Toast.LENGTH_SHORT).show()
                             val beranda = Intent(this@adminEditTugas,adminBeranda::class.java)
                             startActivity(beranda)
                             finish()
                         }else{
-                            Toast.makeText(this@adminEditTugas, "NotificationData Gagal Diubah",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminEditTugas, "Data Gagal Diubah",Toast.LENGTH_SHORT).show()
                             setResult(Activity.RESULT_CANCELED)
                             finish()
                         }

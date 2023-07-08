@@ -55,14 +55,14 @@ class Register : BaseActivity() {
 
 
                 database.child("Users")
-                    .child(username)
+                    .child(nama)
                     .setValue(akun)
                     .addOnCompleteListener{task->
                         if(task.isSuccessful){
                             Toast.makeText(this@Register,"Akun berhasil di tambahkan",Toast.LENGTH_SHORT).show()
                             finish()
                         } else {
-                            Toast.makeText(this@Register,"NotificationData gagal di tambahkan",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@Register,"Data gagal di tambahkan",Toast.LENGTH_SHORT).show()
                         }
                     }
 

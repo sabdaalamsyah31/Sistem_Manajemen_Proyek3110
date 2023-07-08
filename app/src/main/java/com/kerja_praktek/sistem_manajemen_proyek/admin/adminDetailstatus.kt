@@ -35,6 +35,7 @@ class adminDetailstatus : BaseActivity() {
 
         var cekbox  = intent.getStringExtra("cekbox")
         var namaproyek = intent.getStringExtra("nmProyek")
+        var proyekID = intent.getStringExtra("proyekID")
         var status = intent.getStringExtra("status").toBoolean()
         var id = intent.getStringExtra("id")
         var tanggal = intent.getStringExtra("tanggal")
@@ -74,7 +75,7 @@ class adminDetailstatus : BaseActivity() {
         detail.text = cekbox
         database = Firebase.database.reference
 
-        database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
+        database.child("DetailProyek").child(proyekID.toString()).child(id.toString())
             .addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val detailinfo = snapshot.getValue(DetailInfo::class.java)
@@ -88,7 +89,7 @@ class adminDetailstatus : BaseActivity() {
 
                     }else{
 
-                        Toast.makeText(this@adminDetailstatus,"NotificationData Base Kosong", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@adminDetailstatus,"Data Base Kosong", Toast.LENGTH_SHORT).show()
                     }
 
 
@@ -110,7 +111,7 @@ class adminDetailstatus : BaseActivity() {
             var status =statuscek.isChecked
 
             val detailinfo = DetailInfo(cekbox = cekbox, id = id.toString(), status = status, tanggal = tanggal, bulan = RBulan, tahun = tahun)
-            database.child("DetailProyek").child(namaproyek.toString()).child(id.toString())
+            database.child("DetailProyek").child(proyekID.toString()).child(id.toString())
                 .setValue(detailinfo)
                 .addOnCompleteListener{ task->
                     if (task.isSuccessful){

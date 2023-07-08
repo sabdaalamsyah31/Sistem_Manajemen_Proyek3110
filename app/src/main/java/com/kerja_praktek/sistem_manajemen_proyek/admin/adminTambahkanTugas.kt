@@ -80,6 +80,9 @@ class adminTambahkanTugas : BaseActivity() {
 //        var ListUser = arrayListOf<String>()
 
 //        forSpinner()
+        var forID:String=""
+        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
 
 
     database = Firebase.database.reference
@@ -130,6 +133,9 @@ class adminTambahkanTugas : BaseActivity() {
             dpd.show()
         }
         spinner()
+        for(i in 1..20){
+            forID += str.random()
+        }
 
 
         btnSelanjutnya.setOnClickListener{
@@ -173,16 +179,19 @@ class adminTambahkanTugas : BaseActivity() {
 
             else{
 
-                val Proyek = ProyekInfo(NamaProyek,Tanggal,Bulan,Tahun,Manager,Programmer_1,Programmer_2,Programmer_3,Programmer_4)
+                val Proyek = ProyekInfo(id = forID, namaProyek = NamaProyek, tanggal = Tanggal, bulan = Bulan, tahun = Tahun,
+                    manager = Manager, programmer_1 = Programmer_1, programmer_2 = Programmer_2, programmer_3 = Programmer_3,
+                    programmer_4 = Programmer_4)
                 val Proyekname = NamaProyek
                 database = Firebase.database.reference
                 database.child("Proyek")
-                    .child(Proyekname)
+                    .child(forID)
                     .setValue(Proyek)
                     .addOnCompleteListener{ task ->
                         if (task.isSuccessful){
                             Toast.makeText(this@adminTambahkanTugas,"Selanjutnya Tambahkan Detail", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@adminTambahkanTugas,adminTambahTugas_Detail::class.java)
+                            intent.putExtra("ID",forID)
                             intent.putExtra("namaProyek",NamaProyek)
                             intent.putExtra("Manager",Manager)
                             intent.putExtra("Programmer1",Programmer_1)
@@ -192,7 +201,7 @@ class adminTambahkanTugas : BaseActivity() {
                             startActivity(intent)
 
                         }else{
-                            Toast.makeText(this@adminTambahkanTugas,"NotificationData Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@adminTambahkanTugas,"Data Gagal Ditambahkan", Toast.LENGTH_SHORT).show()
                             finish()
                         }
                     }

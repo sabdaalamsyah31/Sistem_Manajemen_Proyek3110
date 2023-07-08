@@ -30,6 +30,8 @@ class Login : BaseActivity() {
     private lateinit var database: DatabaseReference
 //    private lateinit var auth : FirebaseAuthr
     private lateinit var sharedPref : PreferencesHelper
+    var adminU=""
+    var adminP=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class Login : BaseActivity() {
 //        auth = FirebaseAuth.getInstance()
         sharedPref = PreferencesHelper(this)
         Firebase.messaging.isAutoInitEnabled = true
+        getAdmin()
         fun getToken() {
             FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
 
@@ -63,9 +66,11 @@ class Login : BaseActivity() {
                 // Log and toast
                 val msg = ("ini adalah Tokennya : $token")
                 Log.d(TAG, msg)
-                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             })
         }
+
+
 
         fun startLogin(){
             val username = editUser.text.toString().trim()
@@ -73,10 +78,10 @@ class Login : BaseActivity() {
 
 
             if (username.isEmpty()) {
-                Toast.makeText(applicationContext,"Username Kosong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Login,"Username Kosong", Toast.LENGTH_SHORT).show()
             } else if (password.isEmpty()) {
-                Toast.makeText(applicationContext,"Password Kosong", Toast.LENGTH_SHORT).show()
-            }else if(username.equals("admin")&&password.equals("admin")){
+                Toast.makeText(this@Login,"Password Kosong", Toast.LENGTH_SHORT).show()
+            }else if(username.equals(adminU) && password.equals(adminP) ){
                 Log.d(TAG, "onCreate: $username , $password")
                 val Username = "Admin"
                 database.child("Admins")
@@ -86,7 +91,7 @@ class Login : BaseActivity() {
                             val Userdata = snapshot.getValue(UsersInfo::class.java)
 
                             if (Userdata == null){
-                                Toast.makeText(applicationContext,"Database Kosong", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@Login,"Database Kosong", Toast.LENGTH_SHORT).show()
 
                             }else{
                                 val resultUsername = Userdata.Username.toString()
@@ -94,15 +99,16 @@ class Login : BaseActivity() {
                                 val resultJabatan = Userdata.Jabatan.toString()
                                 val resultNama = Userdata.Nama.toString()
 
+                                if(password != resultPassword){
+                                    Toast.makeText(this@Login,"Password Salah", Toast.LENGTH_SHORT).show()
 
-
-                                if (username.equals(resultUsername) && password.equals(resultPassword)){
+                                } else if (username.equals(resultUsername) && password.equals(resultPassword)){
                                     sharedPref.put(Constant.PREF_USERNAME,resultUsername)
                                     sharedPref.put(Constant.PREF_PASSWORD,resultPassword)
                                     sharedPref.put(Constant.PREF_JABATAN,resultJabatan)
                                     sharedPref.put(Constant.PREF_NAMA,resultNama)
                                     sharedPref.put(Constant.PREF_IS_LOGIN,true)
-                                    Toast.makeText(applicationContext,"Selamat Datang $resultUsername Sebagai $resultJabatan", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext,"Selamat Datang $resultNama Sebagai $resultJabatan", Toast.LENGTH_SHORT).show()
                                     FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
 
                                         if (!task.isSuccessful) {
@@ -126,12 +132,12 @@ class Login : BaseActivity() {
 
                                     })
 
-                                    val GotoAdminBeranda = Intent(applicationContext,adminBeranda::class.java)
+                                    val GotoAdminBeranda = Intent(this@Login,adminBeranda::class.java)
 
                                     GotoAdminBeranda.putExtra("Username",Userdata.Nama)
                                     startActivity(GotoAdminBeranda)
                                 } else{
-                                    Toast.makeText(applicationContext,"NotificationData Login Salah", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@Login,"Data Login Salah", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -163,9 +169,10 @@ class Login : BaseActivity() {
                             val Resultjabatan = Userdata.Jabatan.toString()
                             val Resultnama = Userdata.Nama.toString()
 
+                            if(password != Resultpassword){
+                                Toast.makeText(applicationContext,"Password Salah", Toast.LENGTH_SHORT).show()
 
-
-                            if (username.equals(Resultusername)&&password.equals(Resultpassword)&&Resultjabatan.equals("Programmer")||Resultjabatan.equals("Magang")){
+                            } else if (username.equals(Resultusername)&&password.equals(Resultpassword)&&Resultjabatan.equals("Programmer")||Resultjabatan.equals("Magang")){
 
                                 getToken()
                                 sharedPref.put(Constant.PREF_USERNAME,Resultusername)
@@ -195,17 +202,21 @@ class Login : BaseActivity() {
                                     // Log and toast
 
                                 })
-                                Toast.makeText(applicationContext,"Selamat Datang $Resultusername sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext,"Selamat Datang $Resultnama sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
                                 val GotoUserBeranda = Intent(applicationContext,UserBeranda::class.java)
                                 GotoUserBeranda.putExtra("Username",Userdata.Username)
                                 startActivity(GotoUserBeranda)
+
+                            } else if(password != Resultpassword){
+                                Toast.makeText(applicationContext,"Password Salah", Toast.LENGTH_SHORT).show()
+
                             } else if(username.equals(Resultusername)&&password.equals(Resultpassword)&&Resultjabatan.equals("Manager Proyek")){
                                 sharedPref.put(Constant.PREF_USERNAME,Resultusername)
                                 sharedPref.put(Constant.PREF_PASSWORD,Resultpassword)
                                 sharedPref.put(Constant.PREF_JABATAN,Resultjabatan)
                                 sharedPref.put(Constant.PREF_NAMA,Resultnama)
                                 sharedPref.put(Constant.PREF_IS_LOGIN,true)
-                                Toast.makeText(applicationContext,"Selamat Datang $Resultusername sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext,"Selamat Datang $Resultnama sebagai $Resultjabatan", Toast.LENGTH_SHORT).show()
                                 val GotoAdminBeranda = Intent(applicationContext,adminBeranda::class.java)
 //                                FirebaseIDService()
                                 GotoAdminBeranda.putExtra("Username",Userdata.Nama)
@@ -254,6 +265,26 @@ class Login : BaseActivity() {
 
 //        finish()
 
+    }
+    private fun getAdmin(){
+        database.child("Admins")
+            .child("Admin")
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val userdata = snapshot.getValue(UsersInfo::class.java)
+                    if (userdata == null){
+
+                    }else{
+                        adminU = userdata.Username.toString()
+                        adminP = userdata.Password.toString()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
 
